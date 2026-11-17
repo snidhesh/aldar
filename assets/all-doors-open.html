@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All Doors Open</title>
+<meta name="description" content="Concept site for an open house of Aldar communities in Abu Dhabi and Dubai, organised by BlackOak Real Estate.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&amp;family=Jost:wght@300..600&amp;display=swap">
+<style>
+:root{
+/* Layout: fluid sections on a 1280px measure, one page per #name. Black-and-white base with stone greys; sky blue and tan as the only accents. */
+color-scheme:light;
+--ink:#000000;--graphite:#515150;--pewter:#808282;--stone:#D7D1CA;--mist:#F0F1EF;--white:#FFFFFF;
+--sky:#769CD2;--lagoon:#7AC9D4;--sun:#D6AC65;--alert:#B3261E;--alert-wash:#FDF1F0;
+--font-display:'Bodoni Moda',Didot,'Bodoni 72',Georgia,serif;
+--font-body:Jost,'Century Gothic','Avenir Next',system-ui,sans-serif;
+}
+h1,h2,h3{text-wrap:balance}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink)}
+*{box-sizing:border-box}
+a{color:var(--ink)}
+a:hover{color:var(--graphite)}
+button{font-family:inherit}
+section[id]{scroll-margin-top:84px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.dark :focus-visible{outline-color:var(--sun)}
+.display{font-family:var(--font-display)}
+.eyebrow{margin:0;font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 30px;border:1.5px solid transparent;border-radius:2px;font-family:var(--font-body);font-size:16px;font-weight:500;letter-spacing:.06em;line-height:1;text-align:center;text-decoration:none;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease,color .25s ease,border-color .25s ease}
+.btn-primary{background:var(--ink);color:var(--white)}
+.btn-primary:hover{color:var(--white);transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--sky)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--white)}
+.btn-light{background:var(--white);color:var(--ink)}
+.btn-light:hover{color:var(--ink);transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--sun)}
+.btn-light.is-on{background:var(--sun);color:var(--ink)}
+.btn-outline-light{background:transparent;color:var(--white);border-color:var(--pewter)}
+.btn-outline-light:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
+.textbtn{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:0 6px;background:none;border:0;color:var(--ink);font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.textbtn::before{content:"";display:block;width:34px;height:1.5px;background:var(--ink);transition:width .3s ease}
+.textbtn:hover::before{width:58px}
+
+/* Navigation */
+.navlink{position:relative;padding:12px 2px;font-size:15px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.navlink::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:1.5px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.navlink:hover::after{transform:scaleX(1)}
+.pip{display:block;width:12px;height:18px;border:1.5px solid var(--ink);border-radius:6px 6px 0 0;transition:background-color .4s ease}
+.pip.is-seen{background:var(--ink)}
+
+/* Hero */
+.rise{animation:rise .9s cubic-bezier(.2,.7,.1,1) both}
+.rise-2{animation-delay:.1s}
+.rise-3{animation-delay:.2s}
+.rise-4{animation-delay:.3s}
+@keyframes rise{
+from{transform:translateY(24px)}
+to{transform:none}
+}
+.stage{--mx:0;--my:0;position:relative;width:100%;height:620px;container-type:inline-size}
+.drift-a{transform:translate(calc(var(--mx)*-14px),calc(var(--my)*-9px));transition:transform .5s cubic-bezier(.2,.7,.1,1)}
+.drift-b{transform:translate(calc(var(--mx)*20px),calc(var(--my)*12px));transition:transform .5s cubic-bezier(.2,.7,.1,1)}
+.drift-c{transform:translate(calc(var(--mx)*-30px),calc(var(--my)*-18px));transition:transform .5s cubic-bezier(.2,.7,.1,1)}
+.deco-moon{position:absolute;right:0;top:0;width:200px;height:200px;border-radius:50%;background:var(--stone)}
+.deco-squiggle{position:absolute;left:0;top:6px;width:120px;height:24px}
+.deco-column{position:absolute;right:9px;bottom:56px;width:42px;height:280px;background:repeating-linear-gradient(90deg,var(--white) 0 7px,var(--stone) 7px 14px);border:1.5px solid var(--ink);border-bottom:0}
+.deco-column::before{content:"";position:absolute;left:-9px;right:-9px;top:-14px;height:14px;background:var(--white);border:1.5px solid var(--ink)}
+.deco-orb{position:absolute;left:50%;top:-58px;width:44px;height:44px;margin-left:-22px;border-radius:50%;background:var(--sun);border:1.5px solid var(--ink)}
+.floor{position:absolute;left:0;right:0;bottom:0;height:56px;border-top:1.5px solid var(--ink);background:conic-gradient(var(--ink) 25%,var(--mist) 0 50%,var(--ink) 0 75%,var(--mist) 0) 0 0/56px 56px}
+.arch-frame{position:absolute;left:6%;bottom:56px;width:min(84%,400px);padding:10px 10px 0;background:var(--white);border:1.5px solid var(--ink);border-bottom:0;border-radius:999px 999px 0 0}
+.arch{position:relative;height:520px;border-radius:999px 999px 0 0;overflow:hidden;background:var(--mist)}
+.vista{position:absolute;inset:0;overflow:hidden;background:var(--mist)}
+.vista-sun{position:absolute;left:50%;top:20%;width:150px;height:150px;margin-left:-45px;border-radius:50%;background:var(--sun)}
+.vista-arcade{position:absolute;left:9%;bottom:38%;display:flex;align-items:flex-end;gap:6px}
+.vista-arcade span{display:block;width:22px;height:38px;border-radius:11px 11px 0 0;background:var(--ink)}
+.vista-sea{position:absolute;left:0;right:0;bottom:0;height:38%;background:var(--sky)}
+.vista-sea::before{content:"";position:absolute;left:0;right:0;top:-1px;height:20px;background:radial-gradient(circle at 20px 0,var(--mist) 19px,rgba(240,241,239,0) 20px) 0 0/40px 20px repeat-x}
+.vista-deep{position:absolute;left:0;right:0;bottom:0;height:21%;background:var(--ink)}
+.vista-deep::before{content:"";position:absolute;left:0;right:0;top:-1px;height:20px;background:radial-gradient(circle at 20px 0,var(--sky) 19px,rgba(118,156,210,0) 20px) 20px 0/40px 20px repeat-x}
+.vista-link{position:absolute;right:9%;bottom:6%;z-index:1;padding:14px 4px 10px;border-bottom:1.5px solid var(--sun);color:var(--white);font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+.vista-link:hover{color:var(--white);border-bottom-width:3px}
+.leaf{position:absolute;inset:0;z-index:2;display:block;width:100%;height:100%;margin:0;padding:0;border:0;background:var(--sky);color:var(--ink);cursor:pointer;transform-origin:0 50%;transform:perspective(1500px) rotateY(0deg);transition:transform 1.2s cubic-bezier(.3,.7,.1,1)}
+.leaf:hover{transform:perspective(1500px) rotateY(10deg)}
+.leaf.is-open{transform:perspective(1500px) rotateY(76deg)}
+.leaf.is-open:hover{transform:perspective(1500px) rotateY(70deg)}
+.leaf-top{position:absolute;left:13%;right:13%;top:9%;height:36%;border:1.5px solid rgba(0,0,0,.55);border-radius:999px 999px 0 0}
+.leaf-mid{position:absolute;left:13%;right:13%;top:49%;height:12%;border:1.5px solid rgba(0,0,0,.55)}
+.leaf-low{position:absolute;left:13%;right:13%;top:65%;height:27%;border:1.5px solid rgba(0,0,0,.55)}
+.leaf-knob{position:absolute;right:4%;top:53%;width:26px;height:26px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 5px rgba(0,0,0,.25)}
+.leaf-word{position:absolute;left:0;right:0;top:52.6%;text-align:center;font-size:13px;font-weight:500;letter-spacing:.34em;text-transform:uppercase}
+@container (max-width: 470px){
+.deco-column,.deco-moon{display:none}
+}
+
+/* Ticker */
+.ticker{overflow:hidden;background:var(--ink);color:var(--white);border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.ticker-track{display:flex;width:max-content;animation:slide 60s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-set{display:flex;align-items:center;gap:36px;padding:17px 18px}
+.tick{display:flex;align-items:center;gap:36px;font-size:26px;font-style:italic;font-weight:500;line-height:1.3;white-space:nowrap}
+.tick-arch{display:block;width:12px;height:18px;border-radius:6px 6px 0 0;background:var(--sun)}
+@keyframes slide{
+to{transform:translateX(-50%)}
+}
+
+/* The house */
+.chip{min-height:44px;padding:0 20px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font-size:15px;font-weight:500;letter-spacing:.04em;cursor:pointer;transition:background-color .25s ease,color .25s ease}
+.chip:hover{background:var(--mist)}
+.chip.is-on{background:var(--ink);color:var(--white)}
+.door{display:flex;flex-direction:column;align-items:center;gap:0;margin:0;padding:0 0 6px;border:0;background:none;color:var(--ink);font-size:inherit;text-align:center;cursor:pointer;transition:opacity .35s ease}
+.door.is-dim{opacity:.26}
+.door-arch{position:relative;display:block;width:100%;max-width:168px;aspect-ratio:5/8;border-radius:999px 999px 0 0;overflow:hidden;background:var(--mist);box-shadow:0 0 0 6px var(--white),0 0 0 7.5px var(--ink)}
+.door-step{display:block;width:100%;max-width:200px;height:8px;margin-top:7.5px;background:var(--ink)}
+.door-leaf{position:absolute;inset:0;display:block;background:var(--sky);transform-origin:0 50%;transform:perspective(900px) rotateY(0deg);transition:transform .9s cubic-bezier(.3,.7,.1,1)}
+.door.alt .door-leaf{background:var(--ink)}
+.door:hover .door-leaf{transform:perspective(900px) rotateY(16deg)}
+.door.is-active .door-leaf{transform:perspective(900px) rotateY(78deg)}
+.door-no{position:absolute;left:0;right:0;top:24%;color:var(--ink);font-size:46px;font-style:italic;font-weight:500;line-height:1;text-align:center}
+.door.alt .door-no{color:var(--white)}
+.door-knob{position:absolute;right:11%;top:58%;width:12px;height:12px;border-radius:50%;background:var(--sun)}
+.door-name{display:block;margin-top:18px;font-size:25px;font-weight:500;line-height:1.1}
+.door.is-active .door-name{color:var(--ink);font-style:italic}
+.door-place{display:block;margin-top:7px;font-size:12px;letter-spacing:.16em;line-height:1.3;text-transform:uppercase;color:var(--graphite)}
+.door-badge{display:block;margin-top:10px;padding:4px 10px;border-radius:999px;background:var(--sun);color:var(--ink);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;visibility:hidden}
+.door.is-picked .door-badge{visibility:visible}
+.scene{position:absolute;inset:0;display:block}
+.scene span{position:absolute;display:block}
+.s-gallery{background:var(--mist)}
+.s-gallery .sa{left:50%;top:22%;width:34%;aspect-ratio:1;border-radius:50%;background:var(--sun);transform:translateX(-50%)}
+.s-gallery .sb{left:8%;right:8%;bottom:30%;height:21%;border-radius:999px 999px 0 0;background:var(--stone)}
+.s-gallery .sc{left:0;right:0;bottom:0;height:30%;background:var(--sky)}
+.s-games{background:var(--ink)}
+.s-games .sa{left:50%;top:16%;width:62%;aspect-ratio:1;border:7px solid var(--sky);border-radius:50%;transform:translateX(-50%)}
+.s-games .sb{left:0;right:0;bottom:0;height:27%;background:conic-gradient(var(--white) 25%,var(--sky) 0 50%,var(--white) 0 75%,var(--sky) 0) 0 0/28px 28px}
+.s-games .sc{left:50%;top:31%;width:20%;aspect-ratio:1;border-radius:50%;background:var(--sun);transform:translateX(-50%)}
+.s-spa{background:var(--stone)}
+.s-spa .sa{left:50%;bottom:0;width:130%;aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle,var(--sky) 0 5px,var(--lagoon) 5px 13px);transform:translate(-50%,50%)}
+.s-spa .sb{left:50%;top:18%;width:26%;aspect-ratio:1;border-radius:50%;background:var(--white);transform:translateX(-50%)}
+.s-spa .sc{display:none}
+.s-family{background:var(--mist)}
+.s-family .sa{left:10%;right:10%;bottom:0;height:74%;border-radius:999px 999px 0 0;background:var(--ink)}
+.s-family .sb{left:25%;right:25%;bottom:0;height:53%;border-radius:999px 999px 0 0;background:var(--sky)}
+.s-family .sc{left:38%;right:38%;bottom:0;height:31%;border-radius:999px 999px 0 0;background:var(--sun)}
+.s-garden{background:var(--mist)}
+.s-garden .sa{left:9%;top:24%;width:48%;aspect-ratio:1;border-radius:50%;background:var(--sky)}
+.s-garden .sb{right:8%;top:47%;width:34%;aspect-ratio:1;border-radius:50%;background:var(--lagoon)}
+.s-garden .sa::after,.s-garden .sb::after{content:"";position:absolute;left:50%;top:94%;width:5px;height:160%;margin-left:-2.5px;background:var(--ink)}
+.s-garden .sc{left:0;right:0;bottom:0;height:14%;background:var(--ink)}
+.s-deck{background:var(--mist)}
+.s-deck .sa{left:50%;bottom:42%;width:66%;aspect-ratio:2/1;border-radius:999px 999px 0 0;background:var(--sun);transform:translateX(-50%)}
+.s-deck .sb{left:0;right:0;bottom:22%;height:20%;background:var(--sky)}
+.s-deck .sc{left:0;right:0;bottom:0;height:22%;background:repeating-linear-gradient(90deg,var(--white) 0 12px,var(--ink) 12px 24px)}
+.panel{animation-duration:.6s;animation-timing-function:cubic-bezier(.2,.7,.1,1);animation-fill-mode:both}
+.swap-a{animation-name:swapA}
+.swap-b{animation-name:swapB}
+@keyframes swapA{
+from{opacity:.35;transform:translateY(16px)}
+to{opacity:1;transform:none}
+}
+@keyframes swapB{
+from{opacity:.35;transform:translateY(16px)}
+to{opacity:1;transform:none}
+}
+.tag{display:inline-flex;align-items:center;gap:9px;min-height:40px;padding:6px 16px;border:1px solid var(--pewter);border-radius:999px;background:var(--white);color:var(--ink);font-size:16px;line-height:1.2}
+.tag-new{padding:3px 8px;border-radius:999px;background:var(--sun);color:var(--ink);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+
+/* Registration */
+.field{display:flex;flex-direction:column;gap:9px;min-width:0}
+.label{font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--graphite)}
+.input{width:100%;height:56px;padding:0 16px;border:0;border-bottom:1.5px solid var(--ink);border-radius:2px 2px 0 0;background:var(--white);color:var(--ink);font-family:inherit;font-size:18px;transition:background-color .2s ease,border-color .2s ease}
+.input:focus{background:var(--white);border-bottom-color:var(--sky)}
+.input.is-bad{border-bottom-color:var(--alert);background:var(--alert-wash)}
+.err{font-size:15px;color:var(--alert)}
+.opt{min-height:48px;padding:0 18px;border:1.5px solid var(--ink);border-radius:2px;background:var(--white);color:var(--ink);font-size:16px;font-weight:500;letter-spacing:.02em;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+.opt:hover{background:var(--stone)}
+.opt.is-on{background:var(--ink);color:var(--white)}
+.count{display:inline-flex;align-items:center;align-self:flex-start;border:1.5px solid var(--ink);border-radius:2px;background:var(--white)}
+.count button{width:48px;height:46px;border:0;background:transparent;color:var(--ink);font-size:24px;line-height:1;cursor:pointer}
+.count button:hover{background:var(--stone)}
+.count span{min-width:48px;text-align:center;font-size:19px;font-weight:500}
+.check{display:flex;align-items:flex-start;gap:14px;font-size:16px;line-height:1.5;color:var(--graphite);cursor:pointer}
+.check input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--ink)}
+.keycard{position:relative;display:flex;flex-direction:column;gap:18px;width:100%;max-width:420px;margin:0 auto;padding:118px 36px 36px;border-radius:999px 999px 4px 4px;background:var(--ink);color:var(--white);box-shadow:10px 10px 0 var(--sky);transition:box-shadow .6s ease,transform .6s cubic-bezier(.2,.7,.1,1)}
+.keycard.is-cut{box-shadow:10px 10px 0 var(--sun);transform:rotate(-2deg)}
+.key-hole{position:absolute;left:50%;top:42px;width:36px;height:36px;margin-left:-18px;border-radius:50%;background:var(--mist);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.key-row{display:flex;flex-direction:column;gap:3px;padding-top:14px;border-top:1px dashed var(--pewter)}
+.key-k{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+.key-v{font-size:17px;line-height:1.35;overflow-wrap:anywhere}
+
+@media (prefers-reduced-motion: reduce){
+.ticker-track,.rise,.panel{animation:none}
+.leaf,.door-leaf,.drift-a,.drift-b,.drift-c{transition:none}
+}
+.door-no,.door-knob{transition:opacity .4s ease}
+.door.is-active .door-no,.door.is-active .door-knob{opacity:0}
+/* Site pages */
+.door{text-decoration:none}
+.navlink.is-current::after{transform:scaleX(1)}
+.btn-primary.is-on{background:var(--sun);color:var(--ink)}
+.btn-primary.is-on:hover{color:var(--ink)}
+.textlink{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.textlink::before{content:"";display:block;width:34px;height:1.5px;background:var(--ink);transition:width .3s ease}
+.textlink:hover::before{width:58px}
+.room-arch{position:relative;width:min(100%,360px);aspect-ratio:5/7;border-radius:999px 999px 0 0;overflow:hidden;background:var(--mist);box-shadow:0 0 0 10px var(--white),0 0 0 11.5px var(--ink)}
+.slot{display:flex;align-items:center;justify-content:center;min-height:220px;padding:16px;border:1.5px dashed var(--pewter);background:var(--white);color:var(--graphite);font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-align:center}
+.hop{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:8px;padding:28px 32px;border:1.5px solid var(--ink);background:var(--white);color:var(--ink);text-decoration:none;transition:background-color .25s ease,color .25s ease}
+.hop:hover{background:var(--ink);color:var(--white)}
+.hop-k{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase}
+.hop-v{font-size:34px;font-style:italic;font-weight:500;line-height:1.1}
+.detail{display:flex;flex-direction:column;gap:8px;margin:0;padding:22px 0 26px;border-top:1.5px solid var(--ink)}
+.detail-k{font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--graphite)}
+.detail-v{margin:0;font-size:30px;font-weight:500;line-height:1.15;overflow-wrap:anywhere}
+.visit-step{display:flex;flex-direction:column;gap:12px;padding-top:22px;border-top:1.5px solid var(--pewter)}
+.visit-no{font-size:30px;font-style:italic;font-weight:500;line-height:1;color:var(--sun)}
+.visit-title{margin:0;font-size:32px;font-weight:500;line-height:1.1}
+.visit-body{margin:0;font-size:18px;line-height:1.55;color:var(--stone)}
+.footlink{display:inline-flex;align-items:center;min-height:36px;color:var(--stone);text-decoration:none}
+.footlink:hover{color:var(--white);text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<noscript><p style="margin: 0; padding: 24px; background: #FFFFFF; color: #000000; font-family: system-ui, sans-serif">This concept site needs JavaScript to display.</p></noscript>
+<template id="dc">
+<div style="--sun: {{accent}}">
+<div id="top" style="background: var(--mist); color: var(--ink); font-family: var(--font-body); font-size: 18px; line-height: 1.55; overflow-x: clip">
+
+<div style="background: var(--ink); color: var(--stone); padding: 10px 24px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; font-size: 13px; letter-spacing: 0.06em; text-align: center">
+<span>Concept for client review</span>
+<span aria-hidden="true">/</span>
+<span>Organised by {{organiser}}</span>
+<span aria-hidden="true">/</span>
+<span>Registration runs in preview mode</span>
+</div>
+
+<header style="position: sticky; top: 0; z-index: 40; background: var(--mist); border-bottom: 1px solid var(--stone)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 12px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 28px">
+<a href="#home" style="display: flex; align-items: center; gap: 14px; min-height: 46px; text-decoration: none; color: var(--ink)">
+<span aria-hidden="true" style="display: block; width: 22px; height: 32px; border-radius: 11px 11px 0 0; background: var(--ink)"></span>
+<span style="display: flex; flex-direction: column; gap: 4px">
+<span class="display" style="font-size: 22px; font-weight: 600; line-height: 1; color: var(--ink)">All Doors Open</span>
+<span style="font-size: 11px; letter-spacing: 0.18em; line-height: 1; text-transform: uppercase; color: var(--graphite)">An open house of Aldar communities</span>
+</span>
+</a>
+<nav aria-label="Site" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px">
+<sc-for list="{{ nav }}" as="n"><a class="navlink {{ n.cls }}" href="{{ n.href }}" aria-current="{{ n.current }}">{{ n.label }}</a></sc-for>
+<span style="display: flex; align-items: center; gap: 10px">
+<span aria-hidden="true" style="display: flex; align-items: flex-end; gap: 4px">
+<sc-for list="{{ rooms }}" as="room"><span class="pip {{ room.pipCls }}"></span></sc-for>
+</span>
+<span style="font-size: 13px; letter-spacing: 0.06em; color: var(--graphite)">{{ seenLabel }}</span>
+</span>
+</nav>
+</div>
+</header>
+
+<main>
+
+<sc-if value="{{ isHome }}">
+<section>
+<div style="max-width: 1280px; margin: 0 auto; padding: 64px 32px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<div style="flex: 1.3 1 520px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 28px">
+<p class="eyebrow rise" style="display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--graphite)"><span>The Aldar open house</span><span aria-hidden="true">/</span><span>{{eventDate}}</span><sc-if value="{{ hasVenue }}"><span aria-hidden="true">/</span><span>{{venue}}</span></sc-if></p>
+<h1 class="display rise rise-2" style="margin: 0; font-size: clamp(50px, 6.6vw, 96px); font-weight: 500; line-height: 0.96; letter-spacing: -0.02em; color: var(--ink)">One door.<br><em style="font-style: italic; color: var(--pewter)">Every</em> address.</h1>
+<p class="rise rise-3" style="margin: 0; max-width: 540px; font-size: 20px; line-height: 1.55; color: var(--graphite)">For one open house, every Aldar community in Abu Dhabi and Dubai comes together under a single roof: island shorelines, parkland neighbourhoods and Dubai's garden suburbs. Walk the rooms, compare them side by side, and find the address that fits.</p>
+</div>
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div class="stage" onMouseMove="{{ heroMove }}" onMouseLeave="{{ heroLeave }}">
+<span class="deco-moon drift-a" aria-hidden="true"></span>
+<svg class="deco-squiggle drift-c" viewBox="0 0 120 24" aria-hidden="true"><path d="M3 12 Q 12.5 0 22 12 T 41 12 T 60 12 T 79 12 T 98 12 T 117 12" style="fill: none; stroke: var(--sky); stroke-width: 3; stroke-linecap: round"></path></svg>
+<span class="deco-column" aria-hidden="true"><span class="deco-orb"></span></span>
+<span class="floor" aria-hidden="true"></span>
+<div class="arch-frame">
+<div class="arch">
+<div class="vista" aria-hidden="true">
+<span class="vista-sun drift-b"></span>
+<span class="vista-arcade"><span></span><span></span><span></span><span></span><span></span></span>
+<span class="vista-sea"></span>
+<span class="vista-deep"></span>
+</div>
+<sc-if value="{{ doorOpen }}"><a class="vista-link" href="#house">Step inside</a></sc-if>
+<button type="button" id="hero-door" class="leaf {{ doorCls }}" onClick="{{ toggleDoor }}" aria-label="{{ doorLabel }}">
+<span class="leaf-top" aria-hidden="true"></span>
+<span class="leaf-mid" aria-hidden="true"></span>
+<span class="leaf-low" aria-hidden="true"></span>
+<span class="leaf-knob" aria-hidden="true"></span>
+<span class="leaf-word" aria-hidden="true">Push</span>
+</button>
+</div>
+</div>
+</div>
+<button type="button" id="hero-door-toggle" class="textbtn" onClick="{{ toggleDoor }}">{{ doorLabel }}</button>
+</div>
+</div>
+</section>
+
+<div class="ticker">
+<div class="ticker-track display">
+<div class="ticker-set">
+<sc-for list="{{ ticker }}" as="t"><span class="tick"><span>{{ t.n }}</span><span class="tick-arch" aria-hidden="true"></span></span></sc-for>
+</div>
+<div class="ticker-set" aria-hidden="true">
+<sc-for list="{{ ticker }}" as="t"><span class="tick"><span>{{ t.n }}</span><span class="tick-arch"></span></span></sc-for>
+</div>
+</div>
+</div>
+
+<section id="house" style="background: var(--white)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 104px 32px; display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 64px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p class="eyebrow" style="color: var(--graphite)">The walkthrough</p>
+<h2 class="display" style="margin: 0; font-size: clamp(42px, 5.2vw, 76px); font-weight: 500; line-height: 1; letter-spacing: -0.015em">Five rooms. <em style="font-style: italic; color: var(--pewter)">One house.</em></h2>
+</div>
+<p style="flex: 1 1 340px; max-width: 460px; margin: 0; color: var(--graphite)">The portfolio is laid out the way you would walk a home. Each door leads to a destination and the communities that live there. Choose a door to step inside.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px">
+<span class="eyebrow" style="margin-right: 8px; color: var(--graphite)">I'm drawn to</span>
+<sc-for list="{{ filters }}" as="f"><button type="button" id="filter-{{ f.id }}" class="chip {{ f.cls }}" onClick="{{ f.pick }}" aria-pressed="{{ f.on }}">{{ f.label }}</button></sc-for>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 32px 20px; align-items: start; padding-top: 8px">
+<sc-for list="{{ rooms }}" as="room">
+<a id="door-{{ room.id }}" class="door {{ room.cls }}" href="{{ room.href }}" aria-label="{{ room.label }}">
+<span class="door-arch">
+<span class="scene {{ room.sceneCls }}"><span class="sa"></span><span class="sb"></span><span class="sc"></span></span>
+<span class="door-leaf"><span class="door-no display">{{ room.no }}</span><span class="door-knob"></span></span>
+</span>
+<span class="door-step"></span>
+<span class="door-name display">{{ room.name }}</span>
+<span class="door-place">{{ room.place }}</span>
+<span class="door-badge">On your visit</span>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="background: var(--stone); color: var(--ink)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 72px 32px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 64px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<p class="eyebrow" style="color: var(--graphite)">The event</p>
+<p class="display" style="margin: 0; font-size: clamp(34px, 3.6vw, 52px); font-weight: 500; line-height: 1.1">{{eventDate}}<sc-if value="{{ hasVenue }}">, <em style="font-style: italic">{{venue}}</em></sc-if></p>
+</div>
+<a class="btn btn-ghost" href="#event">Event details</a>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isRoom }}">
+<section style="background: var(--white)">
+<div class="panel {{ swapCls }}" style="max-width: 1280px; margin: 0 auto; padding: 36px 32px 96px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px">
+<a class="textlink" href="#rooms">All rooms</a>
+<span class="eyebrow" style="color: var(--graphite)">{{ room.count }}</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 48px 72px">
+<div style="flex: 1.3 1 480px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 22px">
+<p class="eyebrow" style="color: var(--graphite)">{{ room.place }} / {{ room.region }}</p>
+<h1 class="display" style="margin: 0; font-size: clamp(54px, 7vw, 104px); font-style: italic; font-weight: 500; line-height: 0.98; letter-spacing: -0.02em">{{ room.name }}</h1>
+<p style="margin: 0; max-width: 560px; font-size: 21px; line-height: 1.55; color: var(--graphite)">{{ room.blurb }}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px">
+<button type="button" id="room-pick" class="btn btn-primary {{ room.pickCls }}" onClick="{{ room.toggle }}" aria-pressed="{{ room.picked }}">{{ room.pickLabel }}</button>
+<a class="btn btn-ghost" href="#register">Register interest</a>
+</div>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; justify-content: center; padding: 14px">
+<div class="room-arch" aria-hidden="true"><span class="scene {{ room.sceneCls }}"><span class="sa"></span><span class="sb"></span><span class="sc"></span></span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="background: var(--mist)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 88px 32px 96px; display: flex; flex-direction: column; gap: 64px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px 72px">
+<div style="flex: 1.3 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<h2 class="eyebrow" style="color: var(--graphite)">In this room</h2>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{ room.homes }}" as="home"><li class="tag"><span>{{ home.n }}</span><sc-if value="{{ home.isNew }}"><span class="tag-new">New in 2026</span></sc-if></li></sc-for>
+</ul>
+</div>
+<sc-if value="{{ room.hasFacts }}">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<h2 class="eyebrow" style="color: var(--graphite)">Worth knowing</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 20px 32px">
+<sc-for list="{{ room.facts }}" as="fact"><div style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 1.5px solid var(--ink)"><span class="display" style="font-size: 46px; font-weight: 500; line-height: 1; color: var(--ink)">{{ fact.fig }}</span><span style="font-size: 16px; line-height: 1.45; color: var(--graphite)">{{ fact.lab }}</span></div></sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 18px">
+<h2 class="eyebrow" style="color: var(--graphite)">A look inside</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px">
+<div class="slot">[COMMUNITY IMAGE]</div>
+<div class="slot">[COMMUNITY IMAGE]</div>
+<div class="slot">[MASTERPLAN OR MODEL IMAGE]</div>
+</div>
+</div>
+
+<nav aria-label="More rooms" style="display: flex; flex-wrap: wrap; gap: 20px">
+<a class="hop" href="{{ room.prevHref }}"><span class="hop-k">Previous room {{ room.prevNo }}</span><span class="hop-v display">{{ room.prevName }}</span></a>
+<a class="hop" href="{{ room.nextHref }}" style="text-align: right; align-items: flex-end"><span class="hop-k">Next room {{ room.nextNo }}</span><span class="hop-v display">{{ room.nextName }}</span></a>
+</nav>
+
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: var(--graphite)">Working list, drawn from public listings and news coverage. The final line-up is for Aldar to confirm.</p>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isRegister }}">
+<section style="background: var(--mist)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 88px 32px 104px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 56px 72px">
+<div style="flex: 1.25 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<p class="eyebrow" style="color: var(--graphite)">Register your interest</p>
+<h1 class="display" style="margin: 0; font-size: clamp(42px, 5.2vw, 76px); font-weight: 500; line-height: 1; letter-spacing: -0.015em">Have your key <em style="font-style: italic; color: var(--pewter)">cut.</em></h1>
+<p style="margin: 0; max-width: 540px; color: var(--graphite)">Tell us who is coming and which rooms you would like to linger in. We will hold a place and send you the details.</p>
+</div>
+
+<sc-if value="{{ notSent }}">
+<form onSubmit="{{ submit }}" novalidate="novalidate" style="display: flex; flex-direction: column; gap: 30px">
+<div class="field">
+<label class="label" for="f-name">Full name</label>
+<input class="input {{ nameCls }}" id="f-name" name="name" type="text" autocomplete="name" value="{{ fName }}" onChange="{{ onName }}">
+<sc-if value="{{ errName }}"><span class="err">Please tell us your name.</span></sc-if>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 30px 24px">
+<div class="field">
+<label class="label" for="f-email">Email</label>
+<input class="input {{ emailCls }}" id="f-email" name="email" type="text" inputmode="email" autocomplete="email" value="{{ fEmail }}" onChange="{{ onEmail }}">
+<sc-if value="{{ errEmail }}"><span class="err">That email address looks incomplete.</span></sc-if>
+</div>
+<div class="field">
+<label class="label" for="f-phone">Mobile, with country code</label>
+<input class="input {{ phoneCls }}" id="f-phone" name="phone" type="tel" autocomplete="tel" value="{{ fPhone }}" onChange="{{ onPhone }}">
+<sc-if value="{{ errPhone }}"><span class="err">Please add a number we can reach you on.</span></sc-if>
+</div>
+</div>
+<div class="field" role="group" aria-labelledby="l-role">
+<span class="label" id="l-role">I'm coming as</span>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{ roles }}" as="o"><button type="button" id="{{ o.id }}" class="opt {{ o.cls }}" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+<div class="field" role="group" aria-labelledby="l-rooms">
+<span class="label" id="l-rooms">Rooms I'd like to spend time in</span>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{ rooms }}" as="room"><button type="button" id="pick-{{ room.id }}" class="opt {{ room.optCls }}" onClick="{{ room.toggle }}" aria-pressed="{{ room.picked }}">{{ room.name }}</button></sc-for>
+</div>
+<span style="font-size: 15px; color: var(--graphite)">Leave these blank and we will plan for all five.</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 30px 24px">
+<div class="field" role="group" aria-labelledby="l-guests">
+<span class="label" id="l-guests">Guests, including you</span>
+<div class="count">
+<button type="button" id="guests-fewer" onClick="{{ fewer }}" aria-label="One guest fewer">−</button>
+<span aria-live="polite">{{ guests }}</span>
+<button type="button" id="guests-more" onClick="{{ more }}" aria-label="One guest more">+</button>
+</div>
+</div>
+<div class="field" role="group" aria-labelledby="l-time">
+<span class="label" id="l-time">I'd rather arrive in the</span>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{ times }}" as="o"><button type="button" id="{{ o.id }}" class="opt {{ o.cls }}" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+</div>
+<div class="field">
+<label class="check" for="f-consent"><input id="f-consent" name="consent" type="checkbox" checked="{{ consent }}" onChange="{{ onConsent }}"><span>I agree to be contacted about this open house by {{organiser}} and Aldar. [PRIVACY NOTICE LINK]</span></label>
+<sc-if value="{{ errConsent }}"><span class="err">Please tick the box so we can send you the details.</span></sc-if>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px">
+<button type="submit" id="f-submit" class="btn btn-primary">Register my interest</button>
+<span style="flex: 1 1 240px; font-size: 15px; line-height: 1.45; color: var(--graphite)">Preview mode: nothing you type here is sent or stored.</span>
+</div>
+</form>
+</sc-if>
+
+<sc-if value="{{ sent }}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 40px; border: 1.5px solid var(--ink); background: var(--white)">
+<p class="eyebrow" style="color: var(--graphite)">Key cut</p>
+<h2 class="display" style="margin: 0; font-size: clamp(34px, 3.4vw, 46px); font-style: italic; font-weight: 500; line-height: 1.05">Thank you, {{ firstName }}.</h2>
+<p style="margin: 0; max-width: 520px; color: var(--graphite)">On the live page your place would now be held and a confirmation sent to {{ fEmail }}. This is a preview, so nothing has been sent or stored.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<a class="btn btn-primary" href="#event">See the event details</a>
+<button type="button" id="f-edit" class="btn btn-ghost" onClick="{{ edit }}">Change my details</button>
+</div>
+</div>
+</sc-if>
+</div>
+
+<aside aria-label="Your guest key" style="flex: 1 1 340px; min-width: 0; position: sticky; top: 104px; padding: 0 10px 10px 0">
+<div class="keycard {{ keyCls }}">
+<span class="key-hole" aria-hidden="true"></span>
+<p style="margin: 0; text-align: center; font-size: 12px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--stone)">{{ keyStatus }}</p>
+<p class="display" style="margin: 0; text-align: center; font-size: 40px; font-style: italic; font-weight: 500; line-height: 1.05; overflow-wrap: anywhere">{{ keyName }}</p>
+<div class="key-row"><span class="key-k">Rooms</span><span class="key-v">{{ keyRooms }}</span></div>
+<div class="key-row"><span class="key-k">When</span><span class="key-v">{{eventDate}}, {{ keyTime }}</span></div>
+<sc-if value="{{ hasVenue }}"><div class="key-row"><span class="key-k">Where</span><span class="key-v">{{venue}}</span></div></sc-if>
+<div class="key-row"><span class="key-k">Party</span><span class="key-v">{{ keyParty }}</span></div>
+<p class="display" style="margin: 6px 0 0; padding-top: 16px; border-top: 1px dashed var(--pewter); text-align: center; font-size: 20px; font-weight: 500; line-height: 1.2">All Doors Open</p>
+</div>
+</aside>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isEvent }}">
+<section style="background: var(--white)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 88px 32px 96px; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<p class="eyebrow" style="color: var(--graphite)">The event</p>
+<h1 class="display" style="margin: 0; font-size: clamp(48px, 6vw, 88px); font-weight: 500; line-height: 1; letter-spacing: -0.015em">When and <em style="font-style: italic; color: var(--pewter)">where.</em></h1>
+<p style="margin: 0; max-width: 560px; font-size: 20px; color: var(--graphite)">One open house for every Aldar community in Abu Dhabi and Dubai. Come when it suits you and take the rooms at your own pace.</p>
+</div>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 0 48px">
+<div class="detail"><dt class="detail-k">Date</dt><dd class="detail-v display">{{eventDate}}</dd></div>
+<div class="detail"><dt class="detail-k">Venue</dt><dd class="detail-v display">{{ venueText }}</dd></div>
+<div class="detail"><dt class="detail-k">Hours</dt><dd class="detail-v display">[EVENT HOURS]</dd></div>
+<div class="detail"><dt class="detail-k">Address</dt><dd class="detail-v display">[VENUE ADDRESS]</dd></div>
+<div class="detail"><dt class="detail-k">Getting there</dt><dd class="detail-v display">[PARKING AND ARRIVAL NOTES]</dd></div>
+<div class="detail"><dt class="detail-k">Directions</dt><dd class="detail-v display">[MAP LINK]</dd></div>
+</dl>
+</div>
+</section>
+
+<section class="dark" style="background: var(--ink); color: var(--white)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 88px 32px 96px; display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 64px">
+<h2 class="display" style="flex: 1 1 520px; margin: 0; font-size: clamp(38px, 4.4vw, 64px); font-weight: 500; line-height: 1.02; letter-spacing: -0.015em">How the visit <em style="font-style: italic; color: var(--sky)">works.</em></h2>
+<p style="margin: 0; font-size: 14px; color: var(--stone)">Proposed format, to be confirmed.</p>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 32px 40px">
+<li class="visit-step"><span class="visit-no display">01</span><h3 class="visit-title display">Arrive</h3><p class="visit-body">Your guest key is waiting at the door, printed with the rooms you chose when you registered.</p></li>
+<li class="visit-step"><span class="visit-no display">02</span><h3 class="visit-title display">Walk the rooms</h3><p class="visit-body">Each destination has its own room of masterplans and models, so an island and a garden suburb can be weighed side by side.</p></li>
+<li class="visit-step"><span class="visit-no display">03</span><h3 class="visit-title display">Talk it through</h3><p class="visit-body">Sit down with an advisor for an unhurried, private conversation about homes, availability and what comes next.</p></li>
+</ol>
+</div>
+</section>
+
+<section style="background: var(--mist)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 80px 32px 88px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 64px">
+<p class="display" style="flex: 1 1 480px; margin: 0; font-size: clamp(32px, 3.4vw, 48px); font-weight: 500; line-height: 1.1">Tell us you are coming, and which rooms to have ready.</p>
+<a class="btn btn-primary" href="#register">Register interest</a>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isOrganiser }}">
+<section style="background: var(--white)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 88px 32px 96px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 56px 72px">
+<div style="flex: 1.3 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<p class="eyebrow" style="color: var(--graphite)">Organised by</p>
+<h1 class="display" style="margin: 0; font-size: clamp(46px, 5.6vw, 84px); font-weight: 500; line-height: 1; letter-spacing: -0.015em">{{organiser}}</h1>
+<p style="margin: 0; max-width: 580px; font-size: 20px; color: var(--graphite)">A luxury real estate firm with offices in Dubai and London. Its work covers four areas.</p>
+<ul style="list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 0 40px">
+<li class="detail"><span class="detail-v display">Brokerage</span></li>
+<li class="detail"><span class="detail-v display">Investments</span></li>
+<li class="detail"><span class="detail-v display">Real estate and development advisory</span></li>
+<li class="detail"><span class="detail-v display">Portfolio and asset management</span></li>
+</ul>
+</div>
+<div style="flex: 1 1 340px; min-width: 0; padding: 40px; border: 1.5px solid var(--ink); background: var(--mist); display: flex; flex-direction: column; gap: 26px">
+<h2 class="eyebrow" style="color: var(--graphite)">Contact</h2>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="label">Email</span><span style="font-size: 20px; overflow-wrap: anywhere">info@blackoak-re.com</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="label">Phone</span><span style="font-size: 20px">+971 4 398 9055</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="label">Dubai office</span><span style="font-size: 18px">Marina Plaza, Office 1406, Dubai Marina, Dubai, UAE</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="label">London office</span><span style="font-size: 18px">71-75 Shelton Street, London WC2H 9JQ, United Kingdom</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="label">Website</span><a href="https://www.blackoak-re.com/" style="font-size: 18px; overflow-wrap: anywhere">blackoak-re.com</a></div>
+</div>
+</div>
+</section>
+
+<section style="background: var(--mist)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 72px 32px 88px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 64px">
+<p style="flex: 1 1 480px; max-width: 640px; margin: 0; color: var(--graphite)">This open house is organised by {{organiser}} and presents communities developed by Aldar. It is not an official Aldar website.</p>
+<a class="btn btn-primary" href="#register">Register interest</a>
+</div>
+</section>
+</sc-if>
+
+</main>
+
+<footer class="dark" style="background: var(--ink); color: var(--stone)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 80px 32px 48px; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 40px 64px">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p class="display" style="margin: 0; font-size: clamp(44px, 5vw, 72px); font-weight: 500; line-height: 1; color: var(--white)">All Doors Open</p>
+<p class="display" style="margin: 0; font-size: 26px; font-style: italic; line-height: 1.2; color: var(--sky)">One door. Every address.</p>
+<a class="btn btn-light" href="#register" style="align-self: flex-start; margin-top: 22px">Register interest</a>
+</div>
+<nav aria-label="All pages" style="flex: 0 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 16px">
+<span class="eyebrow" style="margin-bottom: 8px; color: var(--sky)">Pages</span>
+<a class="footlink" href="#home">Home</a>
+<a class="footlink" href="#rooms">The rooms</a>
+<a class="footlink" href="#event">The event</a>
+<a class="footlink" href="#register">Register</a>
+<a class="footlink" href="#organiser">Organiser</a>
+</nav>
+<div style="flex: 0 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px; font-size: 16px">
+<span class="eyebrow" style="margin-bottom: 8px; color: var(--sky)">Organised by</span>
+<span style="color: var(--white)">{{organiser}}</span>
+<span>info@blackoak-re.com</span>
+<span>+971 4 398 9055</span>
+</div>
+</div>
+<p style="margin: 0; padding-top: 24px; border-top: 1px solid var(--graphite); max-width: 880px; font-size: 14px; line-height: 1.55; color: var(--stone)">Concept for client review. This page is not an official Aldar website. Community names and figures are drawn from public listings and news reports and must be confirmed by Aldar before release.</p>
+</div>
+</footer>
+
+</div>
+</div>
+</template>
+<script>
+class DCLogic {
+  setState(patch) {
+    this.state = Object.assign({}, this.state || {}, typeof patch === 'function' ? patch(this.state || {}, this.props) : patch);
+    if (this.__update) this.__update();
+  }
+  forceUpdate() { if (this.__update) this.__update(); }
+}
+class Component extends DCLogic {
+  roomData() {
+    return [
+      {
+        id: 'saadiyat', no: '01', name: 'The Gallery', place: 'Saadiyat Island', region: 'Abu Dhabi',
+        scene: 's-gallery', tags: ['culture', 'waterfront'],
+        blurb: 'Museums on one side, an open beach on the other. This is the room for people who want art, architecture and the sea within the same short walk.',
+        homes: [['Marsa Al Saadiyat', 1], ['Talay', 1], ['Saadiyat Lagoons', 0], ['Mamsha Gardens', 0], ['Saadiyat Grove', 0], ['Louvre Abu Dhabi Residences', 0], ['Nobu Residences', 0], ['Mandarin Oriental Residences', 0], ['The Row Saadiyat', 0], ['The Arthouse', 0], ['The Source', 0]],
+        facts: [['351', 'standalone villas at Talay, the first homes of Marsa Al Saadiyat'], ['8 km', 'of coastline in the Marsa Al Saadiyat masterplan']]
+      },
+      {
+        id: 'yas', no: '02', name: 'The Games Room', place: 'Yas Island', region: 'Abu Dhabi',
+        scene: 's-games', tags: ['leisure', 'family', 'waterfront'],
+        blurb: 'The leisure island of Abu Dhabi, home to a Formula 1 circuit, theme parks, golf and a marina. Parkland neighbourhoods run through it, and a new waterfront quarter is taking shape on the northern shore.',
+        homes: [['Yas Point', 1], ['The Canopies', 1], ['Yas Park Place', 1], ['The Orchids at Yas Acres', 1], ['Yas Riva', 0], ['Yas Living', 0], ['Gardenia Bay', 0], ['Sama Yas', 0], ['Yas Golf Collection', 0], ['Yas Park Gate', 0]],
+        facts: [['1,600', 'homes planned at Yas Point, on the northern shore of the island']]
+      },
+      {
+        id: 'fahid', no: '03', name: 'The Spa', place: 'Fahid Island', region: 'Abu Dhabi',
+        scene: 's-spa', tags: ['wellness', 'waterfront', 'nature'],
+        blurb: 'A natural island between Yas and Saadiyat, planned around wellbeing. Mangroves, shaded trails and a long beachfront set the pace, with close to a third of the land kept for nature.',
+        homes: [['Fahid Island masterplan', 0], ['The Beach House', 0]],
+        facts: [['11 km', 'of coastline around the island'], ['30%', 'of the masterplan set aside for natural spaces']]
+      },
+      {
+        id: 'abu-dhabi', no: '04', name: 'The Family Room', place: 'Abu Dhabi mainland', region: 'Abu Dhabi',
+        scene: 's-family', tags: ['family'],
+        blurb: 'Neighbourhoods planned around everyday family life, from the Reeman communities on the mainland to Al Ghadeer, on the corridor between the capital and Dubai.',
+        homes: [['Al Ghadeer Gardens', 1], ['Al Ghadeer', 0], ['Alreeman II', 0], ['Reeman Living', 0]],
+        facts: []
+      },
+      {
+        id: 'dubai', no: '05', name: 'The Garden', place: 'Dubai', region: 'With Dubai Holding',
+        scene: 's-garden', tags: ['nature', 'wellness', 'family'],
+        blurb: 'Three communities created with Dubai Holding, each with its own idea of living well: Haven for wellness, Athlon for an active life, The Wilds for nature at the doorstep.',
+        homes: [['Haven', 0], ['Verdes by Haven', 0], ['Athlon', 0], ['Rise by Athlon', 0], ['The Wilds', 0], ['The Wilds Residences', 1], ['Moringa Mansions', 0]],
+        facts: [['740', 'apartments and duplexes at The Wilds Residences'], ['38', 'Moringa Mansions at the heart of The Wilds']]
+      }
+    ];
+  }
+
+  /* Each name is one page of the site, shown at #name. */
+  routeNames() {
+    return ['home', 'register', 'event', 'organiser'].concat(this.roomData().map((r) => r.id));
+  }
+
+  navigate(name) {
+    const s = this.state || {};
+    const roomIds = this.roomData().map((r) => r.id);
+    const route = this.routeNames().indexOf(name) >= 0 ? name : 'home';
+    const patch = { route: route, swap: (s.swap || 0) + 1 };
+    if (roomIds.indexOf(route) >= 0) {
+      const seen = Object.assign({}, s.seen || {});
+      seen[route] = true;
+      patch.seen = seen;
+    }
+    this.setState(patch);
+    return route;
+  }
+
+  renderVals() {
+    const p = this.props || {};
+    const s = Object.assign({
+      route: 'home', door: false, swap: 0, filter: 'all', seen: {}, picks: {},
+      fName: '', fEmail: '', fPhone: '', role: 'buyer', guests: 2, time: 'afternoon',
+      consent: false, tried: false, sent: false
+    }, this.state || {});
+    const up = (patch) => this.setState(patch);
+    const data = this.roomData();
+    const roomIds = data.map((r) => r.id);
+    const isRoom = roomIds.indexOf(s.route) >= 0;
+
+    const rooms = data.map((r, i) => {
+      const match = s.filter === 'all' || r.tags.indexOf(s.filter) >= 0;
+      const picked = !!s.picks[r.id];
+      const cls = [];
+      if (!match) cls.push('is-dim');
+      if (i % 2 === 1) cls.push('alt');
+      if (picked) cls.push('is-picked');
+      const picks = Object.assign({}, s.picks);
+      picks[r.id] = !picked;
+      return {
+        id: r.id, no: r.no, name: r.name, place: r.place, sceneCls: r.scene, href: '#' + r.id,
+        cls: cls.join(' '),
+        pipCls: s.seen[r.id] ? 'is-seen' : '',
+        picked: picked,
+        optCls: picked ? 'is-on' : '',
+        label: 'Room ' + r.no + ': ' + r.name + ', ' + r.place,
+        toggle: () => up({ picks: picks })
+      };
+    });
+
+    const cur = data.filter((r) => r.id === s.route)[0] || data[0];
+    const at = data.indexOf(cur);
+    const prev = data[(at + data.length - 1) % data.length];
+    const next = data[(at + 1) % data.length];
+    const curPicked = !!s.picks[cur.id];
+    const curPicks = Object.assign({}, s.picks);
+    curPicks[cur.id] = !curPicked;
+    const room = {
+      no: cur.no, name: cur.name, place: cur.place, region: cur.region, blurb: cur.blurb, sceneCls: cur.scene,
+      count: 'Room ' + cur.no + ' of 05',
+      homes: cur.homes.map((h) => ({ n: h[0], isNew: h[1] === 1 })),
+      facts: cur.facts.map((f) => ({ fig: f[0], lab: f[1] })),
+      hasFacts: cur.facts.length > 0,
+      picked: curPicked,
+      pickCls: curPicked ? 'is-on' : '',
+      pickLabel: curPicked ? 'On your visit' : 'Add this room to my visit',
+      toggle: () => up({ picks: curPicks }),
+      prevHref: '#' + prev.id, prevNo: prev.no, prevName: prev.name,
+      nextHref: '#' + next.id, nextNo: next.no, nextName: next.name
+    };
+
+    const seenCount = data.filter((r) => s.seen[r.id]).length;
+    const seenLabel = seenCount >= data.length ? 'All five rooms seen' : seenCount + ' of ' + data.length + ' rooms seen';
+
+    const nav = [
+      { label: 'The rooms', href: '#rooms', on: isRoom },
+      { label: 'The event', href: '#event', on: s.route === 'event' },
+      { label: 'Organiser', href: '#organiser', on: s.route === 'organiser' }
+    ].map((n) => ({ label: n.label, href: n.href, cls: n.on ? 'is-current' : '', current: n.on ? 'page' : null }));
+
+    const filters = [
+      ['all', 'Everything'], ['waterfront', 'Waterfront'], ['culture', 'Culture'], ['family', 'Family life'],
+      ['wellness', 'Wellness'], ['leisure', 'Sport and leisure'], ['nature', 'Nature']
+    ].map((f) => ({ id: f[0], label: f[1], on: s.filter === f[0], cls: s.filter === f[0] ? 'is-on' : '', pick: () => up({ filter: f[0] }) }));
+
+    const ticker = ['Saadiyat Lagoons', 'Talay', 'Mamsha Gardens', 'Yas Point', 'The Canopies', 'Yas Park Place', 'Yas Riva', 'Fahid Island', 'Al Ghadeer Gardens', 'Haven', 'Athlon', 'The Wilds', 'Moringa Mansions', 'Gardenia Bay'].map((n) => ({ n: n }));
+
+    const nameOk = s.fName.trim().length >= 2;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.fEmail.trim());
+    const phoneOk = s.fPhone.replace(/\D/g, '').length >= 7;
+    const allOk = nameOk && emailOk && phoneOk && !!s.consent;
+
+    const roles = [['buyer', 'Home buyer'], ['investor', 'Investor'], ['broker', 'Agent or broker']]
+      .map((o) => ({ id: 'role-' + o[0], label: o[1], on: s.role === o[0], cls: s.role === o[0] ? 'is-on' : '', pick: () => up({ role: o[0] }) }));
+    const timeDefs = [['morning', 'Morning'], ['afternoon', 'Afternoon'], ['evening', 'Evening']];
+    const times = timeDefs.map((o) => ({ id: 'time-' + o[0], label: o[1], on: s.time === o[0], cls: s.time === o[0] ? 'is-on' : '', pick: () => up({ time: o[0] }) }));
+    const timeLabel = (timeDefs.filter((o) => o[0] === s.time)[0] || timeDefs[1])[1].toLowerCase();
+
+    const pickedNames = data.filter((r) => s.picks[r.id]).map((r) => r.name);
+    const keyRooms = (pickedNames.length === 0 || pickedNames.length === data.length) ? 'All five rooms' : pickedNames.join(', ');
+    const trimmed = s.fName.trim();
+    const venue = String(p.venue ?? '[VENUE]').trim();
+
+    return {
+      eventDate: p.eventDate ?? '[EVENT DATE]',
+      venue: venue,
+      hasVenue: venue.length > 0,
+      venueText: venue.length > 0 ? venue : 'To be announced',
+      organiser: p.organiser ?? '[ORGANISER NAME]',
+      accent: p.accent ?? '#D6AC65',
+
+      isHome: s.route === 'home',
+      isRoom: isRoom,
+      isRegister: s.route === 'register',
+      isEvent: s.route === 'event',
+      isOrganiser: s.route === 'organiser',
+      nav: nav,
+
+      doorOpen: !!s.door,
+      doorCls: s.door ? 'is-open' : '',
+      doorLabel: s.door ? 'Close the door' : 'Open the door',
+      toggleDoor: () => up({ door: !s.door }),
+      heroMove: (e) => {
+        const el = e && e.currentTarget;
+        if (!el || !el.getBoundingClientRect) return;
+        const b = el.getBoundingClientRect();
+        if (!b.width || !b.height) return;
+        el.style.setProperty('--mx', (((e.clientX - b.left) / b.width - 0.5) * 2).toFixed(3));
+        el.style.setProperty('--my', (((e.clientY - b.top) / b.height - 0.5) * 2).toFixed(3));
+      },
+      heroLeave: (e) => {
+        const el = e && e.currentTarget;
+        if (!el || !el.style) return;
+        el.style.setProperty('--mx', '0');
+        el.style.setProperty('--my', '0');
+      },
+
+      ticker: ticker,
+      filters: filters,
+      rooms: rooms,
+      room: room,
+      swapCls: s.swap % 2 === 0 ? 'swap-a' : 'swap-b',
+      seenLabel: seenLabel,
+
+      fName: s.fName, fEmail: s.fEmail, fPhone: s.fPhone,
+      onName: (e) => up({ fName: e.target.value }),
+      onEmail: (e) => up({ fEmail: e.target.value }),
+      onPhone: (e) => up({ fPhone: e.target.value }),
+      roles: roles,
+      times: times,
+      guests: s.guests,
+      fewer: () => up({ guests: Math.max(1, s.guests - 1) }),
+      more: () => up({ guests: Math.min(6, s.guests + 1) }),
+      consent: !!s.consent,
+      onConsent: (e) => up({ consent: !!e.target.checked }),
+      errName: s.tried && !nameOk,
+      errEmail: s.tried && !emailOk,
+      errPhone: s.tried && !phoneOk,
+      errConsent: s.tried && !s.consent,
+      nameCls: s.tried && !nameOk ? 'is-bad' : '',
+      emailCls: s.tried && !emailOk ? 'is-bad' : '',
+      phoneCls: s.tried && !phoneOk ? 'is-bad' : '',
+      submit: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        up(allOk ? { tried: true, sent: true } : { tried: true });
+      },
+      edit: () => up({ sent: false }),
+      sent: !!s.sent,
+      notSent: !s.sent,
+      firstName: trimmed ? trimmed.split(/\s+/)[0] : 'guest',
+
+      keyCls: s.sent ? 'is-cut' : '',
+      keyStatus: s.sent ? 'Place held, preview only' : 'Draft guest key',
+      keyName: trimmed || 'Your name',
+      keyRooms: keyRooms,
+      keyTime: timeLabel,
+      keyParty: s.guests === 1 ? 'Admits one' : 'Admits ' + s.guests
+    };
+  }
+}
+const DC_PROPS = {"eventDate": "12:12:2026", "venue": "Aldar Sales Center Dubai", "organiser": "BlackOak Real Estate", "accent": "#D6AC65"};
+(function () {
+  'use strict';
+  /* Small renderer for the page template: {{ holes }}, <sc-for>, <sc-if> and event attributes.
+     Nodes are created once and then updated in place, so focus, transitions and animations survive a state change. */
+  var HOLE = /\{\{\s*([^{}]*?)\s*\}\}/g;
+  var WHOLE = /^\s*\{\{\s*([^{}]*?)\s*\}\}\s*$/;
+  var EVENTS = { onclick: 'click', onchange: 'input', oninput: 'input', onsubmit: 'submit', onmousemove: 'mousemove', onmouseleave: 'mouseleave' };
+
+  function lookup(path, scope) {
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    var parts = path.split('.');
+    var v = scope[parts[0]];
+    for (var i = 1; i < parts.length; i++) { if (v == null) return undefined; v = v[parts[i]]; }
+    return v;
+  }
+  function interp(str, scope) {
+    return str.replace(HOLE, function (_, p) { var v = lookup(p, scope); return v == null ? '' : String(v); });
+  }
+  function setRaw(el, name, v) {
+    if (name === 'value') { var s = v == null ? '' : String(v); if (el.value !== s) el.value = s; return; }
+    if (name === 'checked') { el.checked = !!v; return; }
+    if (typeof v === 'boolean') {
+      if (name.indexOf('aria-') === 0) el.setAttribute(name, String(v));
+      else if (v) el.setAttribute(name, ''); else el.removeAttribute(name);
+      return;
+    }
+    if (v == null) { el.removeAttribute(name); return; }
+    var str = String(v);
+    if (el.getAttribute(name) !== str) el.setAttribute(name, str);
+  }
+
+  function mountList(tplNodes, parent, ctx, before) {
+    var parts = [];
+    for (var i = 0; i < tplNodes.length; i++) { var part = mountNode(tplNodes[i], parent, ctx, before); if (part) parts.push(part); }
+    return {
+      update: function () { for (var i = 0; i < parts.length; i++) parts[i].update(); },
+      destroy: function () { for (var i = 0; i < parts.length; i++) parts[i].destroy(); }
+    };
+  }
+  function mountNode(tpl, parent, ctx, before) {
+    if (tpl.nodeType === 3) return mountText(tpl, parent, ctx, before);
+    if (tpl.nodeType !== 1) return null;
+    if (tpl.localName === 'sc-if') return mountIf(tpl, parent, ctx, before);
+    if (tpl.localName === 'sc-for') return mountFor(tpl, parent, ctx, before);
+    return mountElement(tpl, parent, ctx, before);
+  }
+  function mountText(tpl, parent, ctx, before) {
+    var text = tpl.data;
+    var dyn = text.indexOf('{{') >= 0;
+    var node = document.createTextNode(dyn ? '' : text);
+    parent.insertBefore(node, before || null);
+    return {
+      update: function () { if (dyn) { var s = interp(text, ctx.scope); if (node.data !== s) node.data = s; } },
+      destroy: function () { if (node.parentNode) node.parentNode.removeChild(node); }
+    };
+  }
+  function mountElement(tpl, parent, ctx, before) {
+    var el = document.importNode(tpl, false);
+    var binds = [];
+    Array.prototype.slice.call(tpl.attributes).forEach(function (a) {
+      var name = a.name, value = a.value;
+      var whole = WHOLE.exec(value);
+      if (EVENTS[name] && whole) {
+        el.removeAttribute(name);
+        el.addEventListener(EVENTS[name], function (e) { var fn = lookup(whole[1], ctx.scope); if (typeof fn === 'function') fn(e); });
+        return;
+      }
+      if (value.indexOf('{{') < 0) return;
+      el.removeAttribute(name);
+      binds.push(whole
+        ? function () { setRaw(el, name, lookup(whole[1], ctx.scope)); }
+        : function () { var s = interp(value, ctx.scope); if (el.getAttribute(name) !== s) el.setAttribute(name, s); });
+    });
+    var kids = mountList(tpl.childNodes, el, ctx, null);
+    parent.insertBefore(el, before || null);
+    return {
+      update: function () { for (var i = 0; i < binds.length; i++) binds[i](); kids.update(); },
+      destroy: function () { kids.destroy(); if (el.parentNode) el.parentNode.removeChild(el); }
+    };
+  }
+  function mountIf(tpl, parent, ctx, before) {
+    var anchor = document.createComment('if');
+    parent.insertBefore(anchor, before || null);
+    var path = (WHOLE.exec(tpl.getAttribute('value') || '') || [])[1];
+    var inner = null;
+    return {
+      update: function () {
+        var on = !!(path && lookup(path, ctx.scope));
+        if (on && !inner) inner = mountList(tpl.childNodes, parent, ctx, anchor);
+        else if (!on && inner) { inner.destroy(); inner = null; }
+        if (inner) inner.update();
+      },
+      destroy: function () { if (inner) inner.destroy(); inner = null; if (anchor.parentNode) anchor.parentNode.removeChild(anchor); }
+    };
+  }
+  function mountFor(tpl, parent, ctx, before) {
+    var anchor = document.createComment('for');
+    parent.insertBefore(anchor, before || null);
+    var path = (WHOLE.exec(tpl.getAttribute('list') || '') || [])[1];
+    var as = tpl.getAttribute('as') || 'item';
+    var rows = [];
+    function scopeFor(item, i) { var s = Object.create(ctx.scope); s[as] = item; s.$index = i; return s; }
+    return {
+      update: function () {
+        var list = (path && lookup(path, ctx.scope)) || [];
+        if (list.length !== rows.length) {
+          for (var k = 0; k < rows.length; k++) rows[k].part.destroy();
+          rows = [];
+          for (var i = 0; i < list.length; i++) {
+            var rctx = { scope: scopeFor(list[i], i) };
+            rows.push({ ctx: rctx, part: mountList(tpl.childNodes, parent, rctx, anchor) });
+          }
+        } else {
+          for (var j = 0; j < list.length; j++) rows[j].ctx.scope = scopeFor(list[j], j);
+        }
+        for (var n = 0; n < rows.length; n++) rows[n].part.update();
+      },
+      destroy: function () { for (var k = 0; k < rows.length; k++) rows[k].part.destroy(); rows = []; if (anchor.parentNode) anchor.parentNode.removeChild(anchor); }
+    };
+  }
+
+  var component = new Component();
+  component.props = DC_PROPS;
+  var ctx = { scope: component.renderVals() };
+  var view = mountList(document.getElementById('dc').content.childNodes, document.getElementById('app'), ctx, null);
+  component.__update = function () { ctx.scope = component.renderVals(); view.update(); };
+  view.update();
+
+  /* Pages: each one is shown at its own #name, so the back button and shared links work. */
+  var routes = component.routeNames();
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function hashName() {
+    try { return decodeURIComponent((window.location.hash || '').replace(/^#/, '')); } catch (e) { return ''; }
+  }
+  function toTop() {
+    try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
+  }
+  function glide(el) { el.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' }); }
+  function show(name, sectionId) {
+    var route = component.navigate(name);
+    try { if (hashName() !== route) window.location.hash = route; } catch (e) { /* the address is optional */ }
+    var section = sectionId ? document.getElementById(sectionId) : null;
+    if (section) glide(section); else toTop();
+  }
+  window.addEventListener('hashchange', function () {
+    var name = hashName() || 'home';
+    if (routes.indexOf(name) >= 0 && (component.state || {}).route !== name) { component.navigate(name); toTop(); }
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var name = a.getAttribute('href').slice(1);
+    if (name === 'rooms') { e.preventDefault(); show('home', 'house'); return; }
+    if (routes.indexOf(name) >= 0) { e.preventDefault(); show(name); return; }
+    var target = document.getElementById(name);
+    if (!target) return;
+    e.preventDefault();
+    glide(target);
+  });
+  var first = hashName();
+  if (first !== 'home' && routes.indexOf(first) >= 0) component.navigate(first);
+})();
+
+</script>
+</body>
+</html>
