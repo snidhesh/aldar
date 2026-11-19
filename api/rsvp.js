@@ -1,14 +1,24 @@
 /*
- * RSVP endpoint: the page posts here, and this function forwards the lead to the CRM.
+ * RSVP endpoint: the page posts here. This function forwards the lead to the CRM, then emails the guest a
+ * confirmation with the calendar invite attached.
  *
  * To connect the CRM, set these in Vercel (Project > Settings > Environment Variables):
  *   CRM_API_URL   the CRM endpoint that accepts a lead (required to switch forwarding on)
  *   CRM_API_KEY   the API key or token, if the CRM needs one
  * then adjust toCrmPayload() and crmHeaders() below to match the CRM's API.
  *
- * Until CRM_API_URL is set, a valid submission is accepted but NOT stored or sent anywhere,
+ * Until CRM_API_URL is set, a valid submission is accepted but NOT stored anywhere,
  * and the page says so on its confirmation screen.
+ *
+ * The confirmation email needs RESEND_API_KEY; see lib/email.js. It is sent only once the lead has been
+ * accepted, and a failed email never fails the RSVP.
+ *
+ *   ALLOWED_ORIGINS   optional, comma-separated extra sites allowed to post here (e.g. a custom domain that
+ *                     proxies this one). The site's own address and localhost are always allowed.
  */
+
+const { buildIcs } = require('../lib/ics');
+const { sendConfirmation } = require('../lib/email');
 
 const LOCATIONS = ['Abu Dhabi', 'Dubai', 'Egypt', 'Open to all'];
 const ARRIVALS = ['10am-1pm', '1pm-3pm', '3pm-6pm'];
@@ -43,8 +53,38 @@ function crmHeaders() {
   return headers;
 }
 
+/* Trimmed, single-line, length-capped text. Line breaks are removed so nothing typed can add mail headers. */
 function text(v, max) {
-  return typeof v === 'string' ? v.trim().slice(0, max) : '';
+  return typeof v === 'string' ? v.replace(/[\r\n]+/g, ' ').trim().slice(0, max) : '';
+}
+
+/*
+ * Because a successful RSVP sends an email, the form must not be usable to mail arbitrary people.
+ * These checks are deliberately simple: same-site requests only, a short minimum time on the page, and a
+ * per-visitor rate limit (best effort: it is kept in memory, per server instance).
+ */
+function hostOf(u) {
+  try { return new URL(u).host.toLowerCase(); } catch (e) { return ''; }
+}
+
+function allowedOrigin(req) {
+  const from = hostOf(req.headers.origin || '') || hostOf(req.headers.referer || '');
+  if (!from) return false;
+  if (/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(from)) return true;
+  const own = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
+  if (from === own) return true;
+  return String(process.env.ALLOWED_ORIGINS || '').split(',').some((o) => hostOf(o.trim()) === from);
+}
+
+const hits = new Map();
+function rateLimited(req) {
+  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  const now = Date.now();
+  const recent = (hits.get(ip) || []).filter((t) => now - t < 60000);
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 5000) hits.clear();
+  return recent.length > 8;
 }
 
 /* Returns { lead } or { error }. Never trust what the browser sends. */
@@ -92,19 +132,36 @@ module.exports = async function handler(req, res) {
     try { body = JSON.parse(body); } catch (e) { body = null; }
   }
 
-  /* Honeypot: real visitors never fill the hidden "hp" field. Pretend it worked. */
-  if (body && typeof body.hp === 'string' && body.hp.trim()) {
-    return res.status(200).json({ ok: true, delivered: true });
+  if (!allowedOrigin(req)) return res.status(403).json({ ok: false, error: 'This form can only be sent from the event page.' });
+  if (rateLimited(req)) return res.status(429).json({ ok: false, error: 'Too many attempts. Please wait a minute and try again.' });
+
+  /* Bots: real visitors never fill the hidden "hp" field, and never submit within two seconds of the page loading.
+     Pretend it worked. A missing time is allowed, so a page left open from before this check existed still works. */
+  const tooFast = !!body && typeof body.elapsed === 'number' && body.elapsed < 2000;
+  if ((body && typeof body.hp === 'string' && body.hp.trim()) || tooFast) {
+    return res.status(200).json({ ok: true, delivered: true, emailed: false });
   }
 
   const parsed = parseLead(body);
   if (parsed.error) return res.status(400).json({ ok: false, error: parsed.error });
 
+  /* Once the lead is accepted, email the guest. The result is reported but never turns a good RSVP into an error. */
+  async function finish(delivered) {
+    const lead = parsed.lead;
+    let emailed = false;
+    try {
+      emailed = (await sendConfirmation(lead, buildIcs({ slot: lead.arrival, email: lead.email }))).ok;
+    } catch (e) {
+      console.error('[email] could not prepare the confirmation');
+    }
+    return res.status(200).json({ ok: true, delivered: delivered, emailed: emailed });
+  }
+
   const url = process.env.CRM_API_URL;
-  if (!url) return res.status(200).json({ ok: true, delivered: false });
+  if (!url) return finish(false);
 
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 10000);
+  const timer = setTimeout(() => ctrl.abort(), 8000);
   try {
     const r = await fetch(url, {
       method: 'POST',
@@ -116,7 +173,8 @@ module.exports = async function handler(req, res) {
       console.error('CRM rejected the RSVP: status ' + r.status);
       return res.status(502).json({ ok: false, error: 'We could not record your RSVP. Please try again.' });
     }
-    return res.status(200).json({ ok: true, delivered: true });
+    clearTimeout(timer);
+    return await finish(true);
   } catch (e) {
     console.error('CRM request failed: ' + (e && e.name === 'AbortError' ? 'timed out' : 'network error'));
     return res.status(502).json({ ok: false, error: 'We could not record your RSVP. Please try again.' });

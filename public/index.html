@@ -54,7 +54,7 @@ body::before {
   position: relative; z-index: 1;
   max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 56px) 40px;
+  padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 56px) clamp(40px, 6vw, 72px);
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: clamp(32px, 5vw, 80px);
@@ -591,14 +591,6 @@ button.submit[disabled] { opacity: .6; cursor: progress; }
 .link-btn { background: none; border: 0; color: var(--champagne); font: inherit; font-size: 13px; letter-spacing: 0.08em; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; justify-self: start; }
 .preview-flag { font-size: 12px; color: #6f817c; border: 1px dashed var(--green-line); padding: 8px 12px; }
 
-footer {
-  position: relative; z-index: 1;
-  max-width: 1240px; margin: 0 auto;
-  padding: 24px clamp(16px, 4vw, 56px) 40px;
-  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #6f817c;
-  border-top: 1px solid var(--green-line);
-}
 
 @media (max-width: 900px) {
   .wrap { grid-template-columns: 1fr; }
@@ -775,7 +767,7 @@ body.cel-on { overflow: hidden; }
 /* Homepage poster. The artwork is a 9:16 poster and every element sits on it in poster units (1cqw = 1% of the
    poster's width), so the whole composition scales as one piece, the way the supplied design does. The poster is
    sized so its content fits the screen; a blurred copy of the artwork fills whatever is left at the sides. */
-.splash { container-type: size; padding: 0; overflow: hidden; background: #0a1915; }
+.splash { container-type: size; padding: 0; overflow: hidden; background: #0a1915; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .splash::before, .splash::after { content: none; }
 .splash-ambient {
   position: absolute; inset: -60px; background: #0a1915 url("img/home-bg-blur.jpg") 50% 46% / cover no-repeat;
@@ -787,7 +779,7 @@ body.cel-on { overflow: hidden; }
 }
 .poster-art {
   /* Normally the artwork is exactly the poster. On extra-tall phones it grows a little so it still reaches the top and bottom edges. */
-  position: absolute; left: 50%; top: 51.7%; height: max(100%, 104cqh); aspect-ratio: 2000 / 3556; translate: -50% -51.7%;
+  position: absolute; left: 50%; top: 51.7%; height: max(100%, 106cqh); aspect-ratio: 2000 / 3556; translate: -50% -51.7%;
   background: url("img/home-bg.webp") 50% 50% / cover no-repeat;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent), linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
   -webkit-mask-composite: source-in;
@@ -811,7 +803,7 @@ body.cel-on { overflow: hidden; }
   left: 0; right: 0; top: 83.2cqw; font-family: var(--font-body); font-weight: 300; font-size: max(2.3cqw, 9.2px); line-height: 3cqw;
   letter-spacing: 0.24em; text-indent: 0.24em; text-transform: uppercase; color: var(--ivory);
 }
-.p-offer { left: 24.8cqw; top: 120.7cqw; width: 50.4cqw; display: grid; overflow: hidden; }
+.p-offer { left: 24.8cqw; top: 122cqw; width: 50.4cqw; display: grid; overflow: hidden; }
 .p-offer-tag {
   height: 6cqw; display: grid; place-items: center; background: var(--champagne); color: #14261f;
   font-family: var(--font-body); font-weight: 400; font-size: max(2.1cqw, 8.6px); letter-spacing: 0.28em; text-indent: 0.28em; text-transform: uppercase;
@@ -820,15 +812,15 @@ body.cel-on { overflow: hidden; }
   height: 8.2cqw; display: grid; place-items: center; border: 1px solid var(--champagne); border-top: 0;
   font-family: var(--font-display); font-weight: 400; font-size: 3.9cqw; color: #fff;
 }
-.poster .enter { position: absolute; left: 42.8cqw; top: 93.1cqw; width: 14.4cqw; height: 23cqw; margin: 0; }
-.poster .enter .ri { width: 50%; height: auto; }
-.poster .enter .label { bottom: 11%; font-size: max(2cqw, 8.6px); letter-spacing: 0.3em; text-indent: 0.3em; }
-.poster .p-count { left: 0; right: 0; top: 139.2cqw; }
+.poster .enter { position: absolute; left: 41.75cqw; top: 91.6cqw; width: 16.5cqw; height: 26.4cqw; margin: 0; }
+.poster .enter .ri { width: 54%; height: auto; }
+.poster .enter .label { bottom: 11%; font-size: max(2.5cqw, 10px); letter-spacing: 0.3em; text-indent: 0.3em; }
+.poster .p-count { left: 0; right: 0; top: 140.3cqw; }
 .poster .cd-unit { gap: 0.7cqw; padding: 0 3.3cqw; }
 .poster .p-count .cd-num { font-size: 5.3cqw; }
 .poster .cd-lbl { font-size: max(1.8cqw, 8px); letter-spacing: 0.28em; text-indent: 0.28em; }
 .poster .cd-done { font-size: 3.6cqw; }
-.p-logo { left: 32.85cqw; top: 154.4cqw; width: 34.3cqw; height: auto; display: block; }
+.p-logo { left: 32.85cqw; top: 155cqw; width: 34.3cqw; height: auto; display: block; }
 @media (orientation: landscape) and (max-height: 540px) {
   .splash { display: block; overflow: hidden auto; }
   .splash-ambient { display: none; }
@@ -848,11 +840,25 @@ body.cel-on { overflow: hidden; }
   }
 }
 /* Small-phone fit. */
+@media (max-width: 600px) {
+  /* The "An Aldar X BlackOak property experience" line: left off the homepage on phones, where it ran edge to edge
+     and could be cropped; smaller on the invitation page. */
+  .p-eyebrow { display: none; }
+  .invite .eyebrow { font-size: 9px; letter-spacing: 0.24em; }
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  /* With that line gone, nudge the poster up so the space above and below the content is better balanced. */
+  .poster { transform: translate(-50%, -52.6%); }
+}
 @media (max-width: 520px) {
   .invite .door-view .door-name { font-size: clamp(9px, 2.55vw, 11px); }
   .cel-actions > a { flex: 1 1 100%; justify-content: center; }
 }
 .invite .eyebrow { text-wrap: balance; }
+.invite .door-hint { font-size: clamp(11.5px, 3.45vw, 14px); letter-spacing: 0.22em; }
+.invite .tap-dot { width: 12px; height: 12px; }
+.invite .cd-num { font-size: clamp(38px, 9.5vw, 52px); }
+.invite .cd-lbl { font-size: clamp(10px, 2.8vw, 12px); }
 @media (max-width: 380px) {
   .key-status { letter-spacing: 0.2em; }
   .cd-unit { padding: 0 7px; }
@@ -1088,9 +1094,10 @@ body.cel-on { overflow: hidden; }
       <p class="eyebrow">RSVP received</p>
       <h2 id="thanks-title" tabindex="-1"></h2>
       <p class="sub" id="thanks-sub"></p>
+      <p class="sub is-hidden" id="thanks-mail"></p>
       <dl id="summary"></dl>
       <div class="cel-actions">
-        <a class="cel-btn" id="cal-btn" download="all-doors-open.ics" href="#">Add to calendar</a>
+        <a class="cel-btn" id="cal-btn" href="/api/ics">Add to calendar</a>
         <a class="map-btn" href="https://maps.app.goo.gl/Uun4Rvu5Nh8cL4Ar8?g_st=ic" target="_blank" rel="noopener">
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14.5s4.5-4.2 4.5-7.6A4.5 4.5 0 0 0 3.5 6.9c0 3.4 4.5 7.6 4.5 7.6z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6.8" r="1.6" stroke="currentColor" stroke-width="1.2"/></svg>
           View on map
@@ -1115,11 +1122,6 @@ body.cel-on { overflow: hidden; }
     </div>
   </div>
 </div>
-
-<footer>
-  <span>All Doors Open</span>
-  <span>Aldar Open House</span>
-</footer>
 
 <script>
 /* Event settings. Fill these in before sharing. */
@@ -1443,6 +1445,7 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
     }
     d.consent = form.consent.checked;
     d.hp = form.hp.value;
+    d.elapsed = Math.round(performance.now());
     d.pageUrl = window.location.origin + window.location.pathname;
     d.utm = {};
     try {
@@ -1474,7 +1477,7 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
     div.appendChild(dt); div.appendChild(dd); return div;
   }
 
-  function showThanks(d, sent) {
+  function showThanks(d, sent, emailed) {
     var t = document.getElementById("thanks-title");
     var s = document.getElementById("thanks-sub");
     t.innerHTML = "";
@@ -1488,12 +1491,14 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
     }
     var sum = document.getElementById("summary"); sum.innerHTML = "";
     sum.appendChild(row("Guest", d.firstName + " " + d.lastName));
-    sum.appendChild(row("Response", d.attending));
     if (d.guests) sum.appendChild(row("Party", d.guests === "1" ? "1 guest" : d.guests + " guests"));
     if (d.arrival) sum.appendChild(row("Arrival", d.arrival));
-    if (d.location) sum.appendChild(row("Location", d.location));
-    if (d.propertyTypes && d.propertyTypes.length) sum.appendChild(row("Interest", d.propertyTypes.join(", ")));
     document.getElementById("preview-flag").classList.toggle("is-hidden", sent);
+    /* The calendar button gives the same invite that is attached to the email, for the guest's arrival slot. */
+    document.getElementById("cal-btn").href = "/api/ics" + (d.arrival ? "?slot=" + encodeURIComponent(d.arrival) : "");
+    var mail = document.getElementById("thanks-mail");
+    mail.textContent = emailed ? "A confirmation and calendar invite have been sent to " + d.email + "." : "";
+    mail.classList.toggle("is-hidden", !emailed);
     celFinish();
   }
 
@@ -1564,15 +1569,6 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
     if (!raf) cx.clearRect(0, 0, cv.clientWidth + 2, cv.clientHeight + 2);
   }
 
-  /* Calendar file for the event: 12.12.2026, 10am to 6pm Dubai time. */
-  document.getElementById("cal-btn").href = "data:text/calendar;charset=utf-8," + encodeURIComponent([
-    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//All Doors Open//RSVP//EN", "BEGIN:VEVENT",
-    "UID:all-doors-open-20261212@aldar-open-house", "DTSTAMP:20261101T000000Z",
-    "DTSTART:20261212T060000Z", "DTEND:20261212T140000Z",
-    "SUMMARY:All Doors Open", "LOCATION:" + CONFIG.venue.replace(/,/g, "\\,"),
-    "URL:https://maps.app.goo.gl/Uun4Rvu5Nh8cL4Ar8", "END:VEVENT", "END:VCALENDAR"
-  ].join("\r\n"));
-
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (!validate()) return;
@@ -1593,7 +1589,7 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
         return;
       }
       /* delivered is false until the CRM is connected: the note on the thank-you screen says so. */
-      showThanks(data, res.body.delivered !== false);
+      showThanks(data, res.body.delivered !== false, res.body.emailed === true);
     }).catch(function () {
       celReset();
       errEl.textContent = "We could not send your RSVP. Please check your connection and try again.";
