@@ -6,13 +6,6 @@
       "maxDuration": 30
     }
   },
-  "redirects": [
-    {
-      "source": "/aldar-openhouse",
-      "destination": "/aldar-openhouse/",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/api/:fn/",
@@ -25,6 +18,10 @@
     {
       "source": "/aldar-openhouse/api/:fn",
       "destination": "/api/:fn"
+    },
+    {
+      "source": "/aldar-openhouse",
+      "destination": "/"
     },
     {
       "source": "/aldar-openhouse/",
