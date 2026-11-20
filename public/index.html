@@ -12,7 +12,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23172b28'/%3E%3Cpath d='M10 27V14a6 6 0 0 1 12 0v13' fill='none' stroke='%23cdb98f' stroke-width='1.6'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/bodoni-moda-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/bodoni-moda-latin-standard-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="img/home-bg.webp" as="image" type="image/webp">
+<link rel="preload" href="img/home-scene.webp" as="image" type="image/webp">
 <style>
 @font-face { font-family: "Bodoni Moda"; src: url("fonts/bodoni-moda-latin-standard-normal.woff2") format("woff2"); font-weight: 400 900; font-style: normal; font-display: swap; }
 @font-face { font-family: "Bodoni Moda"; src: url("fonts/bodoni-moda-latin-standard-italic.woff2") format("woff2"); font-weight: 400 900; font-style: italic; font-display: swap; }
@@ -764,13 +764,14 @@ body.cel-on { overflow: hidden; }
   @keyframes cel-halo { 0%, 100% { opacity: .65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
   @keyframes cel-sheen { 0% { left: -70%; } 45%, 100% { left: 140%; } }
 }
-/* Homepage poster. The artwork is a 9:16 poster and every element sits on it in poster units (1cqw = 1% of the
-   poster's width), so the whole composition scales as one piece, the way the supplied design does. The poster is
-   sized so its content fits the screen; a blurred copy of the artwork fills whatever is left at the sides. */
+/* Homepage poster. Every element sits on a 9:16 poster in poster units (1cqw = 1% of the poster's width), so the
+   whole composition scales as one piece, the way the supplied design does. The poster is sized so its content fits
+   the screen. The artwork is a wide scene pinned to the poster so its arch always frames the content, and it
+   spreads past the poster to fill the rest of the screen. */
 .splash { container-type: size; padding: 0; overflow: hidden; background: #0a1915; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .splash::before, .splash::after { content: none; }
 .splash-ambient {
-  position: absolute; inset: -60px; background: #0a1915 url("img/home-bg-blur.jpg") 50% 46% / cover no-repeat;
+  position: absolute; inset: -60px; background: #0a1915 url("img/home-scene-blur.jpg") 50% 50% / cover no-repeat;
   filter: blur(34px) brightness(0.8) saturate(1.1);
 }
 .poster {
@@ -778,13 +779,11 @@ body.cel-on { overflow: hidden; }
   transform: translate(-50%, -51.7%); container-type: inline-size; text-align: center;
 }
 .poster-art {
-  /* Normally the artwork is exactly the poster. On extra-tall phones it grows a little so it still reaches the top and bottom edges. */
-  position: absolute; left: 50%; top: 51.7%; height: max(100%, 106cqh); aspect-ratio: 2000 / 3556; translate: -50% -51.7%;
-  background: url("img/home-bg.webp") 50% 50% / cover no-repeat;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent), linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent), linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
-  mask-composite: intersect;
+  /* The poster covers the middle 30.25% of the artwork's width (measured against the portrait design), which makes
+     the artwork 330.6cqw wide and 185.9cqw tall. It is pinned at the poster's centre point, and grows when needed so
+     it still reaches every edge: 107cqh for extra-tall phones, 57vw for very wide screens. */
+  position: absolute; left: 50%; top: 51.7%; height: max(185.9cqw, 107cqh, 57vw); aspect-ratio: 2500 / 1406; translate: -49.78% -51.67%;
+  background: url("img/home-scene.webp") 50% 50% / cover no-repeat;
 }
 .poster > p, .poster > h2, .poster > div:not(.poster-art), .poster > img, .poster > button { position: absolute; margin: 0; }
 .p-eyebrow {
@@ -821,14 +820,25 @@ body.cel-on { overflow: hidden; }
 .poster .cd-lbl { font-size: max(1.8cqw, 8px); letter-spacing: 0.28em; text-indent: 0.28em; }
 .poster .cd-done { font-size: 3.6cqw; }
 .p-logo { left: 32.85cqw; top: 155cqw; width: 34.3cqw; height: auto; display: block; }
+/* Tablets and computers: show the supplied artwork whole. It is sized to just cover the screen (no extra zoom) and
+   the poster shrinks with it, so the content still sits inside the arch. On very wide screens the poster stops
+   growing once its content fills the height. The small shift down keeps the arch lined up when the artwork's
+   bottom edge meets the bottom of the screen. */
+@media (min-width: 601px) and (min-height: 541px), (min-width: 601px) and (orientation: portrait) {
+  .poster {
+    width: min(max(53.79cqh, 30.39cqw), 66.2cqh, 129cqw);
+    top: calc(50% + max(0px, 50cqh - 0.4833 * max(100cqh, 56.5cqw)));
+  }
+  .poster-art { height: max(100cqh, 56.5vw); }
+}
 @media (orientation: landscape) and (max-height: 540px) {
   .splash { display: block; overflow: hidden auto; }
   .splash-ambient { display: none; }
   .poster {
     --pw: min(62cqw, 440px); position: relative; left: auto; top: auto; transform: none;
     width: var(--pw); margin: calc(var(--pw) * -0.12) auto calc(var(--pw) * -0.1);
+    overflow-x: visible; overflow-y: clip; /* the artwork is a little taller than the poster: do not let it add scroll */
   }
-  .poster-art { height: 100%; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .poster-art { animation: art-in 2.6s cubic-bezier(.2,.6,.2,1) both; }
