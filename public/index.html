@@ -1443,13 +1443,30 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
 
   function mark(id, bad) { var f = document.getElementById(id); if (f) f.classList.toggle("invalid", bad); }
 
+  /* An agent's invite link is this page's address with ?ref=<their code>. Read once, when the page opens,
+     so it is still known if the address changes while the guest looks around. */
+  var REF = "";
+  try { REF = (new URLSearchParams(window.location.search).get("ref") || "").trim().toLowerCase().slice(0, 120); } catch (e) { /* no code */ }
+  if (!/^[a-z0-9-]+$/.test(REF)) REF = "";
+
+  /* The digits of a UAE number as typed, without the 0 people put in front or a repeated country code. */
+  function uaeDigits(raw) {
+    var n = raw.replace(/\D/g, "").replace(/^0+/, "");
+    if (n.length >= 11 && n.indexOf("971") === 0) n = n.slice(3).replace(/^0+/, "");
+    return n;
+  }
+  /* A number typed with its own country code ("+44 ..." or "0044 ...") is kept as typed. */
+  function ownCode(raw) { return /^\s*(\+|00)\s*[1-9]/.test(raw); }
+
   function collect() {
+    var typed = form.phone.value.trim();
     var d = {
       attending: "Attending",
       firstName: form.first.value.trim(),
       lastName: form.last.value.trim(),
       email: form.email.value.trim(),
-      phone: "+971 " + form.phone.value.trim(),
+      phone: ownCode(typed) ? typed : "+971 " + uaeDigits(typed),
+      ref: REF,
       interestedIn: window.__interest || "",
       submittedAt: new Date().toISOString()
     };
@@ -1475,13 +1492,14 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
     var ok = true, msgs = [];
     var first = form.first.value.trim(), last = form.last.value.trim();
     var email = form.email.value.trim();
-    var phoneDigits = form.phone.value.replace(/\D/g, "");
+    var typed = form.phone.value.trim();
     mark("f-first", !first); mark("f-last", !last);
     if (!first || !last) { ok = false; msgs.push("your full name"); }
     var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     mark("f-email", !emailOk); if (!emailOk) { ok = false; msgs.push("a valid email"); }
-    var phoneOk = phoneDigits.length >= 8 && phoneDigits.length <= 10;
-    mark("f-phone", !phoneOk); if (!phoneOk) { ok = false; msgs.push("a UAE mobile number"); }
+    var allDigits = typed.replace(/\D/g, "").length, uae = uaeDigits(typed).length;
+    var phoneOk = ownCode(typed) ? (allDigits >= 8 && allDigits <= 17) : (uae === 8 || uae === 9);
+    mark("f-phone", !phoneOk); if (!phoneOk) { ok = false; msgs.push("a valid mobile number"); }
     if (!form.consent.checked) { ok = false; msgs.push("your consent to be contacted"); }
     errEl.textContent = ok ? "" : "Please add " + msgs.join(", ") + ".";
     return ok;
