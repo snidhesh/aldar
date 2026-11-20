@@ -36,6 +36,9 @@ const LOCATIONS = ['Abu Dhabi', 'Dubai', 'Egypt', 'Open to all'];
 const ARRIVALS = ['10am-1pm', '1pm-3pm', '3pm-6pm'];
 const TYPES = ['Apartment', 'Townhouse', 'Villa', 'Penthouse'];
 
+/* How this event is named in what the CRM stores about a guest. */
+const EVENT_LABEL = 'Aldar Openday Event';
+
 /* The CRM's limits: a name of 120 characters, 200 for short fields, 2000 for free text. */
 function cut(v, max) {
   return Array.from(String(v || '')).slice(0, max).join('');
@@ -43,18 +46,27 @@ function cut(v, max) {
 
 /*
  * The guest as the CRM's registration endpoint expects it. Only these names are read there; anything else
- * is ignored. "budget" is a number in the CRM, so the page's budget text goes into the requirements instead.
+ * is ignored. "budget" is a number in the CRM, so the page's budget text goes into the summary instead.
+ *
+ * The CRM keeps a registration in two places: the guest on the event (name, phone, party size, note) and
+ * the lead (requirements, preferred locations, property type, note). So that nobody has to open both to
+ * see what a guest answered, every answer goes into one summary and the summary goes to both: as the note,
+ * which the event's guest list shows under the guest's name, and as the lead's requirements. Location and
+ * residence type are also sent in their own fields, where the CRM can filter on them.
  */
 function toCrmPayload(lead) {
-  const wants = [];
-  if (lead.arrival) wants.push('Arrival: ' + lead.arrival);
-  if (lead.purpose) wants.push('Interested in: ' + lead.purpose);
-  if (lead.interestedIn) wants.push('Project: ' + lead.interestedIn);
-  if (lead.budget) wants.push('Budget: ' + lead.budget);
+  const answers = [];
+  answers.push('Guests: ' + lead.guests);
+  if (lead.arrival) answers.push('Preferred arrival: ' + lead.arrival);
+  if (lead.location) answers.push('Would like to live in: ' + lead.location);
+  if (lead.propertyTypes.length) answers.push('Residence of interest: ' + lead.propertyTypes.join(', '));
+  if (lead.purpose) answers.push('Interested in: ' + lead.purpose);
+  if (lead.interestedIn) answers.push('Project: ' + lead.interestedIn);
+  if (lead.budget) answers.push('Budget: ' + lead.budget);
 
   const tags = Object.keys(lead.utm).map((k) => k + '=' + lead.utm[k]);
-  const note = ['Registered on the All Doors Open page.'];
-  if (tags.length) note.push('Campaign: ' + tags.join(', ') + '.');
+  const note = [EVENT_LABEL + ' registration'].concat(answers);
+  if (tags.length) note.push('Campaign: ' + tags.join(', '));
 
   const payload = {
     name: cut(lead.firstName + ' ' + lead.lastName, 120),
@@ -63,8 +75,8 @@ function toCrmPayload(lead) {
     partySize: lead.guests,
     preferredLocations: cut(lead.location, 200),
     propertyType: cut(lead.propertyTypes.join(', '), 200),
-    requirements: cut(wants.join('. '), 2000),
-    note: cut(note.join(' '), 2000)
+    requirements: cut(EVENT_LABEL + '. ' + answers.join('. '), 2000),
+    note: cut(note.join('\n'), 2000)
   };
   if (lead.ref) payload.ref = lead.ref;
   return payload;
