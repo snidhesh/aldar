@@ -1111,7 +1111,7 @@ body.cel-on { overflow: hidden; }
       <p class="sub is-hidden" id="thanks-mail"></p>
       <dl id="summary"></dl>
       <div class="cel-actions">
-        <a class="cel-btn" id="cal-btn" href="/api/ics">Add to calendar</a>
+        <a class="cel-btn" id="cal-btn" href="api/ics/">Add to calendar</a>
         <a class="map-btn" href="https://maps.app.goo.gl/Uun4Rvu5Nh8cL4Ar8?g_st=ic" target="_blank" rel="noopener">
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14.5s4.5-4.2 4.5-7.6A4.5 4.5 0 0 0 3.5 6.9c0 3.4 4.5 7.6 4.5 7.6z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6.8" r="1.6" stroke="currentColor" stroke-width="1.2"/></svg>
           View on map
@@ -1145,7 +1145,10 @@ var CONFIG = {
   venue: "Aldar Sales Centre, Dubai",
   deadline: "Please respond at your earliest convenience.",
   // The site's own RSVP function (api/rsvp.js), which forwards each lead to the CRM.
-  endpoint: "/api/rsvp"
+  // Relative, with a closing slash, so it works both at the site's own address and under
+  // blackoak-re.com/aldar-openhouse/ (where the main site adds the slash anyway).
+  endpoint: "api/rsvp/",
+  calendar: "api/ics/"
 };
 
 var SCENES = {
@@ -1509,7 +1512,7 @@ document.querySelectorAll("[data-doors]").forEach(function (wrap) {
     if (d.arrival) sum.appendChild(row("Arrival", d.arrival));
     document.getElementById("preview-flag").classList.toggle("is-hidden", sent);
     /* The calendar button gives the same invite that is attached to the email, for the guest's arrival slot. */
-    document.getElementById("cal-btn").href = "/api/ics" + (d.arrival ? "?slot=" + encodeURIComponent(d.arrival) : "");
+    document.getElementById("cal-btn").href = CONFIG.calendar + (d.arrival ? "?slot=" + encodeURIComponent(d.arrival) : "");
     var mail = document.getElementById("thanks-mail");
     mail.textContent = emailed ? "A confirmation and calendar invite have been sent to " + d.email + "." : "";
     mail.classList.toggle("is-hidden", !emailed);

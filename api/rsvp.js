@@ -13,8 +13,9 @@
  * The confirmation email needs RESEND_API_KEY; see lib/email.js. It is sent only once the lead has been
  * accepted, and a failed email never fails the RSVP.
  *
- *   ALLOWED_ORIGINS   optional, comma-separated extra sites allowed to post here (e.g. a custom domain that
- *                     proxies this one). The site's own address and localhost are always allowed.
+ *   ALLOWED_ORIGINS   optional, comma-separated extra sites allowed to post here (e.g. another domain that
+ *                     proxies this one). The site's own address, blackoak-re.com (which serves this site at
+ *                     /aldar-openhouse) and localhost are always allowed.
  */
 
 const { buildIcs } = require('../lib/ics');
@@ -67,12 +68,14 @@ function hostOf(u) {
   try { return new URL(u).host.toLowerCase(); } catch (e) { return ''; }
 }
 
+const MAIN_SITE_HOSTS = ['blackoak-re.com', 'www.blackoak-re.com'];
+
 function allowedOrigin(req) {
   const from = hostOf(req.headers.origin || '') || hostOf(req.headers.referer || '');
   if (!from) return false;
   if (/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(from)) return true;
   const own = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
-  if (from === own) return true;
+  if (from === own || MAIN_SITE_HOSTS.indexOf(from) >= 0) return true;
   return String(process.env.ALLOWED_ORIGINS || '').split(',').some((o) => hostOf(o.trim()) === from);
 }
 
