@@ -777,6 +777,8 @@ body.cel-on { overflow: hidden; }
 .poster {
   cursor: pointer; position: absolute; left: 50%; top: 50%; width: min(66.2cqh, 129cqw); aspect-ratio: 2000 / 3556;
   transform: translate(-50%, -51.7%); container-type: inline-size; text-align: center;
+  /* Where the logos start: above the arch, but never closer than 2.5cqw to the top edge of the screen. */
+  --top: max(15cqw, 94.4cqw - 50cqh);
 }
 .poster-art {
   /* The poster covers the middle 30.25% of the artwork's width (measured against the portrait design), which makes
@@ -787,7 +789,7 @@ body.cel-on { overflow: hidden; }
 }
 .poster > p, .poster > h2, .poster > div:not(.poster-art), .poster > img, .poster > button { position: absolute; margin: 0; }
 .p-eyebrow {
-  left: 0; right: 0; top: 20cqw; font-family: var(--font-body); font-weight: 400; font-size: max(2.1cqw, 8.6px); line-height: 1;
+  left: 0; right: 0; top: calc(var(--top) + 10.4cqw + 18px); font-family: var(--font-body); font-weight: 400; font-size: max(2.1cqw, 8.6px); line-height: 1;
   letter-spacing: 0.26em; text-indent: 0.26em; text-transform: uppercase; white-space: nowrap; color: var(--champagne);
 }
 .p-eyebrow strong { font-weight: 700; }
@@ -802,7 +804,7 @@ body.cel-on { overflow: hidden; }
   left: 0; right: 0; top: 83.2cqw; font-family: var(--font-body); font-weight: 300; font-size: max(2.3cqw, 9.2px); line-height: 3cqw;
   letter-spacing: 0.24em; text-indent: 0.24em; text-transform: uppercase; color: var(--ivory);
 }
-.p-offer { left: 24.8cqw; top: 122cqw; width: 50.4cqw; display: grid; overflow: hidden; }
+.p-offer { left: 24.8cqw; top: 96.5cqw; width: 50.4cqw; display: grid; overflow: hidden; }
 .p-offer-tag {
   height: 6cqw; display: grid; place-items: center; background: var(--champagne); color: #14261f;
   font-family: var(--font-body); font-weight: 400; font-size: max(2.1cqw, 8.6px); letter-spacing: 0.28em; text-indent: 0.28em; text-transform: uppercase;
@@ -811,15 +813,15 @@ body.cel-on { overflow: hidden; }
   height: 8.2cqw; display: grid; place-items: center; border: 1px solid var(--champagne); border-top: 0;
   font-family: var(--font-display); font-weight: 400; font-size: 3.9cqw; color: #fff;
 }
-.poster .enter { position: absolute; left: 41.75cqw; top: 91.6cqw; width: 16.5cqw; height: 26.4cqw; margin: 0; }
+.poster .enter { position: absolute; left: 41.75cqw; top: 133.5cqw; width: 16.5cqw; height: 26.4cqw; margin: 0; }
 .poster .enter .ri { width: 54%; height: auto; }
 .poster .enter .label { bottom: 11%; font-size: max(2.5cqw, 10px); letter-spacing: 0.3em; text-indent: 0.3em; }
-.poster .p-count { left: 0; right: 0; top: 140.3cqw; }
+.poster .p-count { left: 0; right: 0; top: 117.5cqw; }
 .poster .cd-unit { gap: 0.7cqw; padding: 0 3.3cqw; }
 .poster .p-count .cd-num { font-size: 5.3cqw; }
 .poster .cd-lbl { font-size: max(1.8cqw, 8px); letter-spacing: 0.28em; text-indent: 0.28em; }
 .poster .cd-done { font-size: 3.6cqw; }
-.p-logo { left: 32.85cqw; top: 155cqw; width: 34.3cqw; height: auto; display: block; }
+.p-logo { left: 35cqw; top: var(--top); width: 30cqw; height: auto; display: block; }
 /* Tablets and computers: show the supplied artwork whole. It is sized to just cover the screen (no extra zoom) and
    the poster shrinks with it, so the content still sits inside the arch. On very wide screens the poster stops
    growing once its content fills the height. The small shift down keeps the arch lined up when the artwork's
@@ -836,7 +838,7 @@ body.cel-on { overflow: hidden; }
   .splash-ambient { display: none; }
   .poster {
     --pw: min(62cqw, 440px); position: relative; left: auto; top: auto; transform: none;
-    width: var(--pw); margin: calc(var(--pw) * -0.12) auto calc(var(--pw) * -0.1);
+    width: var(--pw); margin: calc(var(--pw) * -0.12) auto calc(var(--pw) * -0.1); --top: 15cqw;
     overflow-x: visible; overflow-y: clip; /* the artwork is a little taller than the poster: do not let it add scroll */
   }
 }
@@ -857,8 +859,10 @@ body.cel-on { overflow: hidden; }
   .invite .eyebrow { font-size: 9px; letter-spacing: 0.24em; }
 }
 @media (max-width: 600px) and (orientation: portrait) {
-  /* With that line gone, nudge the poster up so the space above and below the content is better balanced. */
-  .poster { transform: translate(-50%, -52.6%); }
+  /* Centre the poster so the space above the logos and below the Enter door is balanced, and give the logos
+     their full size. */
+  .poster { transform: translate(-50%, -50%); --top: 17cqw; }
+  .p-logo { left: 32.85cqw; width: 34.3cqw; }
 }
 @media (max-width: 520px) {
   .invite .door-view .door-name { font-size: clamp(9px, 2.55vw, 11px); }
@@ -899,11 +903,20 @@ body.cel-on { overflow: hidden; }
   <div class="splash-ambient" aria-hidden="true"></div>
   <div class="poster" id="poster">
     <div class="poster-art" aria-hidden="true"></div>
+    <img class="p-logo reveal d1" src="img/aldar-blackoak-logo.svg" alt="Aldar and BlackOak Real Estate">
     <p class="p-eyebrow reveal d1">An <strong>Aldar X BlackOak</strong> property experience</p>
     <p class="p-kicker reveal d2">Exclusive Private Event</p>
     <h2 id="splash-title" class="p-title reveal d2"><span>All Doors</span> <em>Open</em></h2>
     <p class="p-tag reveal d3">A day to discover<br>where you could live next</p>
-    <button type="button" class="enter reveal d4" id="enter-btn" aria-label="Enter and open the invitation">
+    <p class="p-offer reveal d4"><span class="p-offer-tag">One day only</span><span class="p-offer-text">Exclusive Event Offers</span></p>
+    <div class="countdown p-count reveal d4" data-countdown aria-live="off">
+      <div class="cd-unit"><span class="cd-num" data-cd="d">00</span><span class="cd-lbl">Days</span></div>
+      <div class="cd-unit"><span class="cd-num" data-cd="h">00</span><span class="cd-lbl">Hours</span></div>
+      <div class="cd-unit"><span class="cd-num" data-cd="m">00</span><span class="cd-lbl">Minutes</span></div>
+      <div class="cd-unit"><span class="cd-num" data-cd="s">00</span><span class="cd-lbl">Seconds</span></div>
+      <p class="cd-done" hidden></p>
+    </div>
+    <button type="button" class="enter reveal d5" id="enter-btn" aria-label="Enter and open the invitation">
       <svg class="door-svg" viewBox="0 0 100 160" fill="none" aria-hidden="true">
         <path class="door-line" d="M2 160 V50 A48 48 0 0 1 98 50 V160"/>
       </svg>
@@ -916,15 +929,6 @@ body.cel-on { overflow: hidden; }
       <span class="label">Enter</span>
       </span>
     </button>
-    <p class="p-offer reveal d4"><span class="p-offer-tag">One day only</span><span class="p-offer-text">Exclusive Event Offers</span></p>
-    <div class="countdown p-count reveal d5" data-countdown aria-live="off">
-      <div class="cd-unit"><span class="cd-num" data-cd="d">00</span><span class="cd-lbl">Days</span></div>
-      <div class="cd-unit"><span class="cd-num" data-cd="h">00</span><span class="cd-lbl">Hours</span></div>
-      <div class="cd-unit"><span class="cd-num" data-cd="m">00</span><span class="cd-lbl">Minutes</span></div>
-      <div class="cd-unit"><span class="cd-num" data-cd="s">00</span><span class="cd-lbl">Seconds</span></div>
-      <p class="cd-done" hidden></p>
-    </div>
-    <img class="p-logo reveal d5" src="img/aldar-blackoak-logo.svg" alt="Aldar and BlackOak Real Estate">
   </div>
 </div>
 
